@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bagian;
 use App\Models\Barang;
 use App\Models\Merek;
+use App\Models\Satuan;
 use App\Models\Type;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -51,6 +52,7 @@ class BarangController extends Controller
         $mereks = Merek::get();
         $types = Type::get();
         $bagians = Bagian::get();
+        $satuans = Satuan::get();
 
         $lastBarang = Barang::orderBy('kode_barang', 'desc')->first();
         if ($lastBarang) {
@@ -60,7 +62,7 @@ class BarangController extends Controller
         } else {
             $newNumber = '0001'; // Jika belum ada data, mulai dari 0001
         }
-        return view('admin/barang.create', compact('mereks', 'types', 'bagians', 'newNumber'));
+        return view('admin/barang.create', compact('satuans', 'mereks', 'types', 'bagians', 'newNumber'));
     }
 
     public function store(Request $request)
@@ -72,7 +74,7 @@ class BarangController extends Controller
                 'type_id' => 'required',
                 'bagian_id' => 'required',
                 'nama_barang' => 'required',
-                'jumlah' => 'required',
+                'satuan_id' => 'required',
                 // 'keterangan' => 'required',
                 'harga' => 'required',
             ],
@@ -81,7 +83,7 @@ class BarangController extends Controller
                 'type_id.required' => 'Pilih Type',
                 'bagian_id.required' => 'Pilih Bagian',
                 'nama_barang.required' => 'Masukkan nama barang',
-                'jumlah.required' => 'Masukkan ukuran',
+                'satuan_id.required' => 'Pilih Satuan',
                 // 'keterangan.required' => 'Masukkan keterangan',
                 'harga.required' => 'Masukkan harga',
             ]
@@ -114,9 +116,10 @@ class BarangController extends Controller
         $mereks = Merek::get();
         $types = Type::get();
         $bagians = Bagian::get();
+        $satuans = Satuan::get();
 
         $barang = Barang::where('id', $id)->first();
-        return view('admin/barang.update', compact('barang', 'mereks', 'types', 'bagians'));
+        return view('admin/barang.update', compact('barang', 'mereks', 'types', 'bagians', 'satuans'));
     }
 
     public function update(Request $request, $id)
@@ -128,7 +131,8 @@ class BarangController extends Controller
                 'type_id' => 'required',
                 'bagian_id' => 'required',
                 'nama_barang' => 'required',
-                'jumlah' => 'required',
+                // 'jumlah' => 'required',
+                'satuan_id' => 'required',
                 // 'keterangan' => 'required',
                 'harga' => 'required',
             ],
@@ -137,7 +141,8 @@ class BarangController extends Controller
                 'type_id.required' => 'Pilih Type',
                 'bagian_id.required' => 'Pilih Bagian',
                 'nama_barang.required' => 'Masukkan nama barang',
-                'jumlah.required' => 'Masukkan ukuran',
+                // 'jumlah.required' => 'Masukkan ukuran',
+                'satuan_id.required' => 'Pilih Satuan',
                 // 'keterangan.required' => 'Masukkan keterangan',
                 'harga.required' => 'Masukkan harga',
             ]
@@ -156,8 +161,9 @@ class BarangController extends Controller
             'bagian_id' => $request->bagian_id,
             'nama_barang' => $request->nama_barang,
             'jumlah' => $request->jumlah,
+            'satuan_id' => $request->satuan_id,
+            'harga' => str_replace(',', '.', str_replace('.', '', $request->harga)),
             'keterangan' => $request->keterangan,
-            'harga' => $request->harga,
         ]);
 
         return redirect('admin/barang')->with('success', 'Berhasil memperbarui barang');

@@ -149,19 +149,33 @@
                                 placeholder="Masukan nama barang" value="{{ old('nama_barang', $barang->nama_barang) }}">
                         </div>
                         <div class="form-group">
-                            <label for="nama">Qty</label>
-                            <input type="text" class="form-control" id="jumlah" name="jumlah"
-                                placeholder="Masukan qty" value="{{ old('jumlah', $barang->jumlah) }}">
+                            <label for="satuan_id">Satuan</label>
+                            <select class="form-control" id="satuan_id" name="satuan_id">
+                                <option value="">-- Pilih Satuan --</option>
+                                @foreach ($satuans as $satuan)
+                                    <option value="{{ $satuan->id }}"
+                                        {{ old('satuan_id', $barang->satuan_id) == $satuan->id ? 'selected' : '' }}>
+                                        {{ $satuan->nama_satuan }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="nama">Keterangan</label>
-                            <input type="text" class="form-control" id="keterangan" name="keterangan"
-                                placeholder="Masukan keterangan" value="{{ old('keterangan', $barang->keterangan) }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="nama">Harga</label>
-                            <input type="number" class="form-control" id="harga" name="harga"
+                            <label for="harga">Harga</label>
+                            <input type="text" class="form-control" id="harga" name="harga"
                                 placeholder="Masukan harga" value="{{ old('harga', $barang->harga) }}">
+                        </div>
+
+                        <script>
+                            const hargaInput = document.getElementById('harga');
+                            hargaInput.addEventListener('input', function(e) {
+                                let value = this.value.replace(/[^\d]/g, '');
+                                this.value = new Intl.NumberFormat('id-ID').format(value);
+                            });
+                        </script>
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <textarea class="form-control" id="keterangan" name="keterangan" rows="3" placeholder="Masukan keterangan">{{ old('keterangan', $barang->keterangan) }}</textarea>
                         </div>
                     </div>
                     <div class="card-footer text-right">
@@ -220,7 +234,7 @@
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Data Merek</h4>
+                        <h4 class="modal-title">Data Type</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

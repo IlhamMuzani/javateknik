@@ -20,6 +20,7 @@ class Barang extends Model
         'merek_id',
         'type_id',
         'bagian_id',
+        'satuan_id',
         'kode_barang',
         'kode_qrcode',
         'nama_barang',
