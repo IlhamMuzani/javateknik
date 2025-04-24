@@ -24,9 +24,7 @@
                 <div class="col-sm-6">
                 </div>
                 <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Data Type</li>
-                    </ol>
+                   
                 </div>
             </div>
         </div>

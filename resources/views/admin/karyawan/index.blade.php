@@ -20,15 +20,7 @@
     <!-- Content Header (Page header) -->
     <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Data Karyawan</li>
-                    </ol>
-                </div>
-            </div>
+            
         </div>
     </div>
     <section class="content" style="display: none;" id="mainContentSection">
