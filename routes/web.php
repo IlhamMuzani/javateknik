@@ -37,6 +37,7 @@ Route::middleware('admin')->prefix('admin')->group(
         Route::get('user/access/{id}', [\App\Http\Controllers\Admin\UserController::class, 'access']);
         Route::post('user-access/{id}', [\App\Http\Controllers\Admin\UserController::class, 'access_user']);
         Route::post('user-create', [\App\Http\Controllers\Admin\UserController::class, 'update_user']);
+        Route::get('user/karyawan/{id}', [\App\Http\Controllers\Admin\UserController::class, 'karyawan']);
 
         Route::resource('akses-new', \App\Http\Controllers\Admin\AksesnewController::class);
         Route::get('akses-new/access/{id}', [\App\Http\Controllers\Admin\AksesnewController::class, 'access']);
