@@ -156,30 +156,6 @@ class PembelianpoController extends Controller
                     'diskon' => $data_pesanan['diskon'],
                     'total' => $data_pesanan['total'],
                 ]);
-
-                // Check if the Detail_barang already exists
-                $existingDetailBarang = Detail_barang::where('supplier_id', $request->supplier_id)
-                    ->where('barang_id', $data_pesanan['barang_id'])
-                    ->where('harga', $data_pesanan['harga'])
-                    ->first();
-
-                if ($existingDetailBarang) {
-                    // If exists, update the jumlah
-                    $existingDetailBarang->jumlah += $data_pesanan['jumlah'];
-                    $existingDetailBarang->save();
-                } else {
-                    // If not exists, create a new Detail_barang
-                    Detail_barang::create([
-                        'pembelian_id' => $transaksi->id,
-                        'detailpembelian_id' => $detailPembelian->id,
-                        'supplier_id' => $request->supplier_id,
-                        'barang_id' => $data_pesanan['barang_id'],
-                        'jumlah' => $data_pesanan['jumlah'],
-                        'harga' => $data_pesanan['harga'],
-                        'tanggal_awal' => $tanggal,
-                        'status' => 'posting',
-                    ]);
-                }
             }
         }
 
@@ -194,14 +170,13 @@ class PembelianpoController extends Controller
     public function show($id)
     {
 
-            $pembelian_part = Pembelian::find($id);
-            $parts = Detailpembelian::where('pembelian_part_id', $pembelian_part->id)->get();
+        $pembelian_part = Pembelian::find($id);
+        $parts = Detailpembelian::where('pembelian_part_id', $pembelian_part->id)->get();
 
 
-            $pembelians = Pembelian::where('id', $id)->first();
+        $pembelians = Pembelian::where('id', $id)->first();
 
-            return view('admin.pembelian.show', compact('parts', 'pembelians'));
-
+        return view('admin.pembelian.show', compact('parts', 'pembelians'));
     }
 
 
@@ -226,15 +201,14 @@ class PembelianpoController extends Controller
     public function cetakpdf($id)
     {
 
-            $pembelians = Pembelian::find($id);
-            $parts = Detailpembelian::where('pembelian_id', $pembelians->id)->get();
+        $pembelians = Pembelian::find($id);
+        $parts = Detailpembelian::where('pembelian_id', $pembelians->id)->get();
 
-            // Load the view and set the paper size to portrait letter
-            $pembelianbans = Pembelian::where('id', $id)->first();
-            $pdf = PDF::loadView('admin.pembelian.cetak_pdf', compact('parts', 'pembelians', 'pembelianbans'));
-            $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
+        // Load the view and set the paper size to portrait letter
+        $pembelianbans = Pembelian::where('id', $id)->first();
+        $pdf = PDF::loadView('admin.pembelian.cetak_pdf', compact('parts', 'pembelians', 'pembelianbans'));
+        $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
 
-            return $pdf->stream('Faktur_Pembelian.pdf');
-
+        return $pdf->stream('Faktur_Pembelian.pdf');
     }
 }

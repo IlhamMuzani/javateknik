@@ -103,7 +103,7 @@ class PopembelianController extends Controller
         $transaksi = Popembelian::create([
             'kode_po_pembelian' => $this->kode(),
             'supplier_id' => $request->supplier_id,
-            'qrcode_popembelian' => 'https://tigerload.id/popembelian/' . $kode,
+            'qrcode_popembelian' => 'https://javateknik.id/popembelian/' . $kode,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
             'status' => 'posting',
@@ -119,9 +119,7 @@ class PopembelianController extends Controller
                     'barang_id' => $data_pembelian['barang_id'],
                     'kode_barang' => $data_pembelian['kode_barang'],
                     'nama_barang' => $data_pembelian['nama_barang'],
-                    // 'harga' => $data_pembelian['harga'],
                     'jumlah' => $data_pembelian['jumlah'],
-                    // 'total' => $data_pembelian['total'],
                     'satuan_id' => $data_pembelian['satuan_id'],
                 ]);
             }

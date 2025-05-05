@@ -59,15 +59,21 @@ Route::middleware('admin')->prefix('admin')->group(
 
         Route::get('type/merek/{id}', [\App\Http\Controllers\Admin\TypeController::class, 'merek']);
         Route::get('barang/get-types-by-merek/{merekId}', [\App\Http\Controllers\Admin\BarangController::class, 'getByMerek']);
-        Route::get('barang/get-bagians-by-merek/{merekId}', [\App\Http\Controllers\Admin\BarangController::class, 'getByBagian']);
+        Route::get('barang/get-bagians/{id}', [\App\Http\Controllers\Admin\BarangController::class, 'getByBagian']);
         Route::get('barang/generate-kode-barang', [\App\Http\Controllers\Admin\BarangController::class, 'generateKodeBarangFromPrefix']);
 
+        Route::resource('po-pembelian', \App\Http\Controllers\Admin\PopembelianController::class);
+        Route::resource('pembelian', \App\Http\Controllers\Admin\PembelianController::class);
+        Route::get('pembelian/supplier/{id}', [\App\Http\Controllers\Admin\PembelianController::class, 'supplier']);
+        Route::get('pembelian/popembelian/{id}', [\App\Http\Controllers\Admin\PembelianController::class, 'popembelian']);
+        Route::resource('pembelianpo', \App\Http\Controllers\Admin\PembelianpoController::class);
+        Route::post('add_pembelian', [\App\Http\Controllers\Admin\PembelianpoController::class, 'add_pembelian']);
 
         Route::resource('inquery-popembelian', \App\Http\Controllers\Admin\InqueryPopembelianController::class);
         Route::resource('inquery-pembelian', \App\Http\Controllers\Admin\InqueryPembelianController::class);
 
         Route::get('laporan-pembelian', [\App\Http\Controllers\Admin\LaporanPembelianController::class, 'index']);
-        Route::get('laporan-popembelian', [\App\Http\Controllers\Admin\LaporanPopembelianController::class, 'index']);
+        Route::get('laporan-po-pembelian', [\App\Http\Controllers\Admin\LaporanPopembelianController::class, 'index']);
         Route::get('print-laporanpopembelian', [\App\Http\Controllers\Admin\LaporanPopembelianController::class, 'print_laporanpopembelian']);
         Route::get('print-laporanpembelian', [\App\Http\Controllers\Admin\LaporanPembelianController::class, 'print_laporanpembelian']);
     }

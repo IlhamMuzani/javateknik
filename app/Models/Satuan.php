@@ -40,6 +40,11 @@ class Satuan extends Model
         return $this->hasMany(Detailpembelian::class);
     }
 
+    public function detailpopembelian()
+    {
+        return $this->hasMany(Detailpopembelian::class);
+    }
+
     public static function getId()
     {
         return $getId = DB::table('satuans')->orderBy('id', 'DESC')->take(1)->get();

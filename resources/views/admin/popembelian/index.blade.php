@@ -395,8 +395,9 @@
                                     <th class="text-center">No</th>
                                     <th>Kode Barang</th>
                                     <th>Nama barang</th>
-                                    <th>Spesifikasi</th>
-                                    <th>Keterangan</th>
+                                    <th>Merek</th>
+                                    {{-- <th>Type</th>
+                                    <th>Bagian</th> --}}
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
@@ -409,8 +410,9 @@
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $barang->kode_barang }}</td>
                                         <td>{{ $barang->nama_barang }}</td>
-                                        <td>{{ $barang->spesifikasi }}</td>
-                                        <td>{{ $barang->keterangan }}</td>
+                                        <td>{{ $barang->merek->nama_merek ?? null }}</td>
+                                        {{-- <td>{{ $barang->merek->id ?? null }}</td>
+                                        <td>{{ $barang->merek->id ?? null }}</td> --}}
                                         <td class="text-center">
                                             <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
                                                 onclick="getBarang({{ $loop->index }})">

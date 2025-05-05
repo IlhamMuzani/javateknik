@@ -48,12 +48,12 @@
             </td>
             <td style="width: 70%; text-align: right;">
                 <img src="{{ asset('storage/uploads/gambar_logo/login2.png') }}" width="120" height="30"
-                    alt="Logo Tigerload">
+                    alt="Logo JavaTeknik">
             </td>
         </tr>
     </table>
     <div style="text-align: center;">
-        <span style="font-weight: bold; font-size: 25px;">CV. TIGER LOAD ENGINEERING</span>
+        <span style="font-weight: bold; font-size: 25px;">CV. JAVA TEKNIK</span>
         <br>
         <span style=" font-size: 15px;">Jl. Ahmad Yani No. 42 Procot Slawi, <br>
             Tegal 52411</span>

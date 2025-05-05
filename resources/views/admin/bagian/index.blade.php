@@ -44,11 +44,11 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Bagian</h3>
                     <div class="float-right">
-                        @if (auth()->user()->menufiturs()->where('nama', 'Data Bagian')->wherePivot('can_create', 1)->exists())
+                        {{-- @if (auth()->user()->menufiturs()->where('nama', 'Data Bagian')->wherePivot('can_create', 1)->exists())
                             <a href="{{ url('admin/bagian/create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -60,7 +60,7 @@
                                 <th>Nama Bagian</th>
                                 <th>Nama Merek</th>
                                 <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="100">Opsi</th>
+                                {{-- <th class="text-center" width="100">Opsi</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -76,7 +76,7 @@
                                             {!! DNS2D::getBarcodeHTML("$bagian->qrcode_bagian", 'QRCODE', 2, 2) !!}
                                         </div>
                                     </td>
-                                    <td class="text-center">
+                                    {{-- <td class="text-center">
                                         @if (auth()->user()->menufiturs()->where('nama', 'Data Bagian')->wherePivot('can_update', 1)->exists())
                                             <a href="{{ url('admin/bagian/' . $bagian->id . '/edit') }}"
                                                 class="btn btn-warning btn-sm">
@@ -89,7 +89,7 @@
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         @endif
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 <div class="modal fade" id="modal-hapus-{{ $bagian->id }}">
                                     <div class="modal-dialog">

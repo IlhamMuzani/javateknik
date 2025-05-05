@@ -48,7 +48,7 @@
             </td>
             <td style="width: 70%; text-align: right;">
                 <img src="{{ asset('storage/uploads/gambar_logo/login2.png') }}" width="120" height="30"
-                    alt="Logo Tigerload">
+                    alt="Logo JavaTeknik">
             </td>
         </tr>
     </table>

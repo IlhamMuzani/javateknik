@@ -10,7 +10,7 @@
                 <div class="col-sm-6">
                 </div><!-- /.col -->
                 <div class="col-sm-6">
-
+                   
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -274,20 +274,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($bagians as $item)
-                                    <tr
-                                        onclick="getSelectedDataBagian('{{ $item->id }}','{{ $item->kode_bagian }}', '{{ $item->nama_bagian }}')">
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $item->kode_bagian ?? null }}</td>
-                                        <td>{{ $item->nama_bagian }}</td>
-                                        <td class="text-center">
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                                onclick="getSelectedDataBagian('{{ $item->id }}','{{ $item->kode_bagian }}', '{{ $item->nama_bagian }}')">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                <!-- Data akan dimuat melalui AJAX -->
                             </tbody>
 
                         </table>
@@ -338,6 +325,7 @@
             document.getElementById('nama_merek').value = NamaMerek;
             // Close the modal (if needed)
             $('#tableMerek').modal('hide');
+            updateKodeTypeDanBagian();
             updateKodeBarang();
         }
     </script>
@@ -406,10 +394,6 @@
     </script>
 
     <script>
-        function showCategoryModalBagian(selectedCategory) {
-            $('#tableBagian').modal('show');
-        }
-
         function getSelectedDataBagian(BagianId, KodeBagian, NamaBagian) {
             document.getElementById('bagian_id').value = BagianId;
             document.getElementById('kode_bagian').value = KodeBagian;
@@ -417,6 +401,63 @@
 
             $('#tableBagian').modal('hide');
             updateKodeBarang();
+        }
+    </script>
+
+    <script>
+        function showCategoryModalBagian() {
+            const merekId = document.getElementById('merek_id').value;
+            if (!merekId) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: 'Silakan pilih merek terlebih dahulu!',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            $.ajax({
+                url: `get-bagians-by-merek/${merekId}`,
+                type: 'GET', // ← perbaikan di sini
+                success: function(response) {
+                    const tbody = $('#tableBagian tbody'); // ← perbaikan di sini
+                    tbody.empty();
+
+                    if (response.length === 0) {
+                        tbody.append('<tr><td colspan="4" class="text-center">Data tidak ditemukan</td></tr>');
+                        return;
+                    }
+
+                    response.forEach((bagian, index) => {
+                        const row = `
+                <tr onclick="getSelectedDataBagian('${bagian.id}','${bagian.kode_bagian}','${bagian.nama_bagian}')">
+                    <td class="text-center">${index + 1}</td>
+                    <td>${bagian.kode_bagian}</td>
+                    <td>${bagian.nama_bagian}</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-primary btn-sm"
+                            onclick="getSelectedDataBagian('${bagian.id}','${bagian.kode_bagian}','${bagian.nama_bagian}')">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </td>
+                </tr>`;
+                        tbody.append(row);
+                    });
+
+                    $('#tableBagian').modal('show');
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal memuat data Bagian.',
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'Tutup'
+                    });
+                }
+            });
         }
     </script>
 

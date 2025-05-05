@@ -40,9 +40,9 @@ class BarangController extends Controller
         return response()->json($types);
     }
 
-    public function getByBagian($merekId)
+    public function getByBagian($id)
     {
-        $bagians = Bagian::where('merek_id', $merekId)->get();
+        $bagians = Bagian::where('id', $id)->first();
 
         return response()->json($bagians);
     }

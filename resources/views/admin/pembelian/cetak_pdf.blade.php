@@ -190,7 +190,7 @@
     <table width="100%">
         <td style="text-align: left;">
             <img src="{{ public_path('storage/uploads/gambar_logo/login2.png') }}" width="120" height="30"
-                alt="Logo Tigerload">
+                alt="Logo JavaTeknik">
         </td>
     </table>
 
@@ -200,7 +200,7 @@
             <td style="text-align: left; width: 30%;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: left;">
-                        <td style="font-size: 12px; font-weight:bold" class="label2">CV. TIGER LOAD ENGINEERING
+                        <td style="font-size: 12px; font-weight:bold" class="label2">CV. JAVA TEKNIK
                         </td>
                     </tr>
                     <tr>
