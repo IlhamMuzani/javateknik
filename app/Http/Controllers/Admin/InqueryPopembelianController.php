@@ -201,7 +201,7 @@ class InqueryPopembelianController extends Controller
     }
 
 
-    public function unpostbarangpo($id)
+    public function unpost($id)
     {
         $ban = Popembelian::where('id', $id)->first();
 
@@ -212,7 +212,7 @@ class InqueryPopembelianController extends Controller
         return back()->with('success', 'Berhasil');
     }
 
-    public function postingbarangpo($id)
+    public function posting($id)
     {
         $ban = Popembelian::where('id', $id)->first();
 
@@ -235,7 +235,7 @@ class InqueryPopembelianController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function hapuspo($id)
     {
         $pembelian = Popembelian::find($id);
         $pembelian->detail_popembelian()->delete();

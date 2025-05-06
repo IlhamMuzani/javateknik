@@ -20,7 +20,7 @@
 
     <!-- Content Header (Page header) -->
     <div class="content-header" style="display: none;" id="mainContent">
-        <div class="container-fluid">
+        {{-- <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                 </div><!-- /.col -->
@@ -30,7 +30,7 @@
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div><!-- /.container-fluid --> --}}
     </div>
     <!-- /.content-header -->
 
@@ -86,7 +86,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Faktur Pembelian</th>
+                                <th>Kode Pembelian</th>
                                 <th>Tanggal</th>
                                 <th>Nama Supplier</th>
                                 <th>Total</th>
@@ -130,19 +130,19 @@
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($pembelians->status == 'unpost')
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Pembelian')->wherePivot('can_posting', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_posting', 1)->exists())
                                                     <a class="dropdown-item posting-btn"
                                                         data-memo-id="{{ $pembelians->id }}">Posting</a>
                                                 @endif
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Pembelian')->wherePivot('can_update', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_update', 1)->exists())
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_pembelian/' . $pembelians->id . '/edit') }}">Update</a>
+                                                        href="{{ url('admin/inquery-pembelian/' . $pembelians->id . '/edit') }}">Update</a>
                                                 @endif
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Pembelian')->wherePivot('can_show', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_show', 1)->exists())
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_pembelian/' . $pembelians->id) }}">Show</a>
+                                                        href="{{ url('admin/inquery-pembelian/' . $pembelians->id) }}">Show</a>
                                                 @endif
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Pembelian')->wherePivot('can_delete', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_delete', 1)->exists())
                                                     <form style="margin-top:5px" method="GET"
                                                         action="{{ route('hapuspembelian', ['id' => $pembelians->id]) }}">
                                                         <button type="submit"
@@ -153,19 +153,19 @@
                                                 @endif
                                             @endif
                                             @if ($pembelians->status == 'posting')
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Pembelian')->wherePivot('can_unpost', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_unpost', 1)->exists())
                                                     <a class="dropdown-item unpost-btn"
                                                         data-memo-id="{{ $pembelians->id }}">Unpost</a>
                                                 @endif
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Pembelian')->wherePivot('can_show', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_show', 1)->exists())
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_pembelian/' . $pembelians->id) }}">Show</a>
+                                                        href="{{ url('admin/inquery-pembelian/' . $pembelians->id) }}">Show</a>
                                                 @endif
                                             @endif
                                             @if ($pembelians->status == 'selesai')
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Pembelian')->wherePivot('can_show', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_show', 1)->exists())
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_pembelian/' . $pembelians->id) }}">Show</a>
+                                                        href="{{ url('admin/inquery-pembelian/' . $pembelians->id) }}">Show</a>
                                                 @endif
                                             @endif
                                         </div>
@@ -215,7 +215,7 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_pembelian') }}";
+            form.action = "{{ url('admin/inquery-pembelian') }}";
             form.submit();
         }
     </script>
@@ -231,7 +231,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_pembelian/unpostpembelian/') }}/" + memoId,
+                    url: "{{ url('admin/inquery-pembelian/unpostpembelian/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -271,7 +271,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_pembelian/postingpembelian/') }}/" + memoId,
+                    url: "{{ url('admin/inquery-pembelian/postingpembelian/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId

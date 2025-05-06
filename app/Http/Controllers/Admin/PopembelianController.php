@@ -145,7 +145,7 @@ class PopembelianController extends Controller
             $num = sprintf("%06s", $idbr);
         }
 
-        $data = 'AJ';
+        $data = 'PO';
         $kode_pembelian_part = $data . $num;
         return $kode_pembelian_part;
     }

@@ -54,7 +54,7 @@
                     @endif
                 </div>
             @endif
-            <form action="{{ url('admin/inquery_pembelian/' . $inquery->id) }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ url('admin/inquery-pembelian/' . $inquery->id) }}" method="POST" enctype="multipart/form-data"
                 autocomplete="off">
                 @csrf
                 @method('put')

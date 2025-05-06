@@ -46,7 +46,7 @@
             <td style="width:0%;">
             </td>
             <td style="width: 70%; text-align: right;">
-                <img src="{{ public_path('storage/uploads/gambar_logo/login2.png') }}" width="120" height="30"
+                <img src="{{ public_path('storage/uploads/gambar_logo/login.png') }}" width="150" height="75"
                     alt="Logo JavaTeknik">
             </td>
         </tr>
@@ -106,7 +106,7 @@
     <div style="display: flex; justify-content: left; align-items: left; margin-top:30px">
         <table style="text-align: letf;">
             <tr>
-                <td style="font-size: 13px; font-weight: lighter;"> Dengan ini CV. Tiger Load engineering bermaksud
+                <td style="font-size: 13px; font-weight: lighter;"> Dengan ini CV. Java Teknik bermaksud
                     untuk memesan barang dengan spesifikasi berikut :</td>
             </tr>
         </table>

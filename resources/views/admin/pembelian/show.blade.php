@@ -23,12 +23,13 @@
 
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
-            padding: 30px;
+            /* margin-top:10px */
+            margin: 40px;
             /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
             /* margin: 40px;
-            
+            padding: 10px; */
         }
 
         span.h2 {
@@ -180,6 +181,11 @@
             /* Sesuaikan posisi vertikal garis tengah */
         }
 
+        @page {
+            /* size: A4; */
+            margin: 1cm;
+        }
+
         .container {
             display: flex;
             justify-content: space-between;
@@ -187,7 +193,7 @@
         }
 
         .blue-button {
-            padding: 10px 20px;
+            padding: 10px 23px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -196,11 +202,7 @@
             top: 50%;
             border-radius: 5px;
             transform: translateY(-50%);
-        }
 
-        @page {
-            /* size: A4; */
-            margin: 1cm;
         }
     </style>
 </head>
@@ -208,7 +210,7 @@
 <body style="margin: 0; padding: 0;">
     <table width="100%">
         <td style="text-align: left;">
-            <img src="{{ asset('storage/uploads/gambar_logo/login2.png') }}" width="120" height="30"
+            <img src="{{ asset('storage/uploads/gambar_logo/login.png') }}" width="150" height="75"
                 alt="Logo JavaTeknik">
         </td>
     </table>
@@ -266,7 +268,7 @@
         </tr>
     </table>
     <div style="font-weight: bold; text-align: center;">
-        <span style="font-weight: bold; font-size: 17px;">FAKTUR PEMBELIAN</span>
+        <span style="font-weight: bold; font-size: 20px;">FAKTUR PEMBELIAN</span>
         <br>
     </div>
     {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
@@ -316,6 +318,7 @@
                     {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: left;  font-size: 15px;">
+
                     {{ $item->satuan->kode_satuan ?? null }}
                 </td>
                 <td class="td" style="text-align: right;  font-size: 15px;">
@@ -413,11 +416,13 @@
             </td>
         </tr>
     </table>
+
+    <div class="container">
+        <a href="{{ url('admin/pembelian') }}" class="blue-button">Kembali</a>
+        <a href="{{ url('admin/pembelian/cetak-pdf/' . $pembelians->id) }}" class="blue-button">Cetak</a>
+    </div>
 </body>
 
-<div class="container">
-    <a href="{{ url('admin/pembelian') }}" class="blue-button">Kembali</a>
-    <a href="{{ url('admin/pembelian/cetak-pdf/' . $pembelians->id) }}" class="blue-button">Cetak</a>
-</div>
+
 
 </html>

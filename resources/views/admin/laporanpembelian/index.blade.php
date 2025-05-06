@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Pembelian')
+@section('title', 'Laporan Faktur Pembelian')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -25,7 +25,7 @@
                 <div class="col-sm-6">
                 </div><!-- /.col -->
                 <div class="col-sm-6">
-                  
+
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -46,7 +46,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Laporan Pembelian</h3>
+                    <h3 class="card-title">Data Laporan Faktur Pembelian</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -63,12 +63,12 @@
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
                             <div class="col-md-2 mb-3">
-                                @if (auth()->user()->menufiturs()->where('nama', 'Laporan Pembelian')->wherePivot('can_search', 1)->exists())
+                                @if (auth()->user()->menufiturs()->where('nama', 'Laporan Faktur Pembelian')->wherePivot('can_search', 1)->exists())
                                     <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                         <i class="fas fa-search"></i> Cari
                                     </button>
                                 @endif
-                                @if (auth()->user()->menufiturs()->where('nama', 'Laporan Pembelian')->wherePivot('can_print', 1)->exists())
+                                @if (auth()->user()->menufiturs()->where('nama', 'Laporan Faktur Pembelian')->wherePivot('can_print', 1)->exists())
                                     <button type="button" class="btn btn-primary btn-block" onclick="printReport()"
                                         target="_blank">
                                         <i class="fas fa-print"></i> Cetak
@@ -81,7 +81,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th class="text-center">Faktur Pembelian</th>
+                                <th class="text-center">Kode Pembelian</th>
                                 <th class="text-center">Tanggal</th>
                                 <th class="text-center">Nama Supplier</th>
                                 <th class="text-center">Total</th>
@@ -102,7 +102,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        {{ $pembelian->detail_pembelian->sum('harga') }}
+                                        {{ number_format($pembelian->detail_pembelian->sum('harga'), 0, ',', '.') }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -134,7 +134,7 @@
         var form = document.getElementById('form-action')
 
         function cari() {
-            form.action = "{{ url('admin/laporan_pembelian') }}";
+            form.action = "{{ url('admin/laporan-pembelian') }}";
             form.submit();
         }
 
@@ -143,7 +143,7 @@
             var endDate = tanggalAkhir.value;
 
             if (startDate && endDate) {
-                form.action = "{{ url('admin/print_laporanpembelian') }}" + "?start_date=" + startDate + "&end_date=" +
+                form.action = "{{ url('admin/print-laporanpembelian') }}" + "?start_date=" + startDate + "&end_date=" +
                     endDate;
                 form.submit();
             } else {

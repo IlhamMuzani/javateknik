@@ -82,9 +82,9 @@
     </ul>
 </li>
 
-<li class="nav-item {{ request()->is('admin/pembelian*') || request()->is('admin/popembelian*') ? 'menu-open' : '' }}">
+<li class="nav-item {{ request()->is('admin/pembelian*') || request()->is('admin/po-pembelian*') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ request()->is('admin/pembelian*') || request()->is('admin/popembelian*') ? 'active' : '' }}">
+        class="nav-link {{ request()->is('admin/pembelian*') || request()->is('admin/po-pembelian*') ? 'active' : '' }}">
 
         <i class="nav-icon fas fa-exchange-alt"></i>
         <p>

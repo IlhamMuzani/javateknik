@@ -10,7 +10,7 @@
         body {
             margin: 0;
             padding: 20px;
-            font-family: 'DOSVGA', monospace;
+            font-family: 'Arial', sans-serif;
             color: black;
         }
 
@@ -37,7 +37,7 @@
         td {
             border: 1px solid black;
             padding: 10px;
-            text-align: center;
+            text-align: left;
         }
 
         th {
@@ -140,7 +140,7 @@
             <td>
                 <div id="logo-container">
                     <!-- Tambahkan gambar logo di sini -->
-                    <img src="{{ public_path('storage/uploads/gambar_logo/login2.png') }}" alt="Logo JavaTeknik">
+                    <img src="{{ public_path('storage/uploads/gambar_logo/login.png') }}" alt="Logo JavaTeknik">
                 </div>
             </td>
         </tr>
@@ -150,7 +150,6 @@
             <th style="width: 35%;">Kode PO Pembelian</th>
             <th style="width: 30%;">Tanggal</th>
             <th style="width: 30%;">Supplier</th>
-            <th style="width: 40%;">Total</th>
         </tr>
         @php
             $total = 0; // Inisialisasi total
@@ -162,26 +161,11 @@
                 <td>
                     {{ $popembelian->supplier->nama_supp }}
                 </td>
-                <td>{{ 'Rp ' . number_format($popembelian->detail_popembelian->sum('total'), 0, ',', '.') }}
-                </td>
+
             </tr>
-            @php
-                $total += $popembelian->detail_popembelian->sum('total');
-            @endphp
         @endforeach
     </table>
-
     <br>
-    <!-- Tampilkan sub-total di bawah tabel -->
-    <div style="text-align: right;">
-        <strong>Total: Rp. {{ number_format($total, 0, ',', '.') }}</strong>
-    </div>
-
-    {{-- <div class="signature">
-        <p>_________________________</p>
-        <p>Tanda Tangan</p>
-    </div> --}}
-
     <script>
         function printReport() {
             var startDate = tanggalAwal.value;

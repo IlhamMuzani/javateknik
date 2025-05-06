@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laporan Purchase Order Pembelian</title>
+    <title>Laporan Pembelian</title>
     <style>
         body {
             margin: 0;
             padding: 20px;
-            font-family: 'DOSVGA', monospace;
+            font-family: 'Arial', sans-serif;
             color: black;
         }
 
@@ -140,7 +140,7 @@
             <td>
                 <div id="logo-container">
                     <!-- Tambahkan gambar logo di sini -->
-                    <img src="{{ public_path('storage/uploads/gambar_logo/login2.png') }}" alt="Logo JavaTeknik">
+                    <img src="{{ public_path('storage/uploads/gambar_logo/login.png') }}" alt="Logo JavaTeknik">
                 </div>
             </td>
         </tr>

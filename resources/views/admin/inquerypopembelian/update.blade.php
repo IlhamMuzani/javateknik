@@ -61,7 +61,7 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/inquery_popembelian/' . $inquery->id) }}" method="post" autocomplete="off">
+            <form action="{{ url('admin/inquery-popembelian/' . $inquery->id) }}" method="post" autocomplete="off">
                 @csrf
                 @method('put')
                 <div class="card">

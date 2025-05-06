@@ -9,10 +9,13 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
             /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
-            margin: 40px;
+            /* margin: 40px; */
+            margin-top: 10px;
+            margin-left: 23px;
+            margin-right: 23px;
         }
 
         .container {
@@ -22,7 +25,7 @@
         }
 
         .blue-button {
-            padding: 10px 20px;
+            padding: 10px 23px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -38,22 +41,18 @@
 
 <body style="margin: 0; padding: 0;">
     <table width="100%">
-        {{-- <td style="text-align: left;">
-            <img src="{{ asset('storage/uploads/gambar_logo/login2.png') }}" width="120" height="30"
-                alt="Logo Tigerload">
-        </td> --}}
         <tr>
             <!-- First column (Nama PT) -->
             <td style="width:0%;">
             </td>
             <td style="width: 70%; text-align: right;">
-                <img src="{{ asset('storage/uploads/gambar_logo/login2.png') }}" width="120" height="30"
+                <img src="{{ asset('storage/uploads/gambar_logo/login.png') }}" width="150" height="75"
                     alt="Logo JavaTeknik">
             </td>
         </tr>
     </table>
     <div style="text-align: center;">
-        <span style="font-weight: bold; font-size: 25px;">CV. TIGER LOAD ENGINEERING</span>
+        <span style="font-weight: bold; font-size: 23px;">CV. JAVA TEKNIK</span>
         <br>
         <span style=" font-size: 15px;">Jl. Ahmad Yani No. 42 Procot Slawi, <br>
             Tegal 52411</span>
@@ -67,7 +66,7 @@
     <table style="width: 100%; margin-bottom:5px">
         <tr>
             <td>
-                <span class="info-item" style="font-size: 15px; padding-left: 5px;">No:
+                <span class="info-item" style="font-size: 15px; padding-left: 0px;">No:
                     {{ $pembelians->kode_po_pembelian }}</span>
                 <br>
             </td>
@@ -78,7 +77,7 @@
         </tr>
     </table>
 
-    <div style="display: flex; justify-content: left; align-items: left; margin-top:30px">
+    <div style="display: flex; justify-content: left; align-items: left; margin-top:23px">
         <table style="text-align: letf;">
             <tr>
                 <td style="font-size: 15px; font-weight: lighter;">Kepada Yth,</td>
@@ -104,18 +103,16 @@
         </table>
     </div>
 
-    <div style="display: flex; justify-content: left; align-items: left; margin-top:20px">
+    <div style="display: flex; justify-content: left; align-items: left; margin-top:30px">
         <table style="text-align: letf;">
             <tr>
-                <td style="font-size: 15px; font-weight: lighter; max-width: 900px; word-wrap: break-word;">
-                    Dengan ini CV. Tiger Load engineering bermaksud untuk memesan barang dengan spesifikasi berikut :
-                </td>
+                <td style="font-size: 15px; font-weight: lighter;"> Dengan ini CV. Tiger Load engineering bermaksud
+                    untuk memesan barang dengan spesifikasi berikut :</td>
             </tr>
         </table>
     </div>
 
-
-    <table style="width: 100%; border-collapse: collapse; margin-top:10px;" cellpadding="2" cellspacing="0"
+    <table style="width: 100%; border-collapse: collapse; margin-top:10px" cellpadding="2" cellspacing="0"
         border="1">
         <tr>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px; border: 1px solid black;">No.
@@ -126,7 +123,8 @@
                 Barang</td>
             {{-- <td class="td" style="text-align: left; padding: 5px; font-size: 15px; border: 1px solid black;">Harga
             </td> --}}
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px; border: 1px solid black;">Qty
+            <td class="td"
+                style="text-align: right; padding-right: 10px; font-size: 15px; border: 1px solid black;">Qty
             </td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px; border: 1px solid black;">Satuan
             </td>
@@ -134,9 +132,9 @@
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px; border: 1px solid black;">Total
             </td> --}}
         </tr>
-        <tr style="border-bottom: 1px solid black;">
+        {{-- <tr style="border-bottom: 0.1px solid black;">
             <td colspan="5" style="padding: 0px;"></td>
-        </tr>
+        </tr> --}}
         @php
             $grandTotal = 0;
         @endphp
@@ -151,11 +149,12 @@
                 {{-- <td class="info-text info-left" style="font-size: 15px; text-align: left; border: 1px solid black;">
                     {{ number_format($item->harga, 0, ',', '.') }}
                 </td> --}}
-                <td class="td" style="text-align: left; font-size: 15px; border: 1px solid black;">
+                <td class="td"
+                    style="text-align: right; font-size: 15px; border: 1px solid black; padding-right:10px">
                     {{ $item->jumlah }}</td>
                 <td class="td" style="text-align: left; font-size: 15px; border: 1px solid black;">
                     {{ $item->satuan->kode_satuan ?? null }}</td>
-                {{-- 
+                {{--
                 <td class="td" style="text-align: left; font-size: 15px; border: 1px solid black;">
                     Rp.{{ number_format($item->total, 0, ',', '.') }}</td> --}}
             </tr>
@@ -163,9 +162,9 @@
                 $grandTotal += $item->total;
             @endphp
         @endforeach
-        <tr style="border-bottom: 1px solid black;">
+        {{-- <tr style="border-bottom: 0.1px solid black;">
             <td colspan="5" style="padding: 0px;"></td>
-        </tr>
+        </tr> --}}
         {{-- <tr>
             <td colspan="6"
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 15px; border: 1px solid black;">
@@ -178,15 +177,12 @@
 
     <div>
         <p style="font-size: 15px; text-align: left;">Demikian purchase order dari kami, atas perhatian dan kerjasamanya
-            kami ucapkan terimakasih</p>
+            kami ucapkan terimakasih.</p>
     </div>
-
-    <br>
-    <br>
 
     <div>
         <p style="font-size: 15px; text-align: left;">Hormat Kami,</p>
-        <p style="font-size: 15px; text-align: left; font-weight:bold">CV. Tiger Load Engineering</p>
+        <p style="font-size: 15px; text-align: left; font-weight:bold">CV. Java Teknik</p>
         <br>
         <br>
         <br>
@@ -200,6 +196,5 @@
     <a href="{{ url('admin/tablepopembelian') }}" class="blue-button">Kembali</a>
     <a href="{{ url('admin/popembelian/cetak-pdf/' . $pembelians->id) }}" class="blue-button">Cetak</a>
 </div>
-
 
 </html>

@@ -275,7 +275,7 @@ class PembelianController extends Controller
             $num = sprintf("%06s", $idbr);
         }
 
-        $data = 'FS';
+        $data = 'FP';
         $kode_pembelian_part = $data . $num;
         return $kode_pembelian_part;
     }

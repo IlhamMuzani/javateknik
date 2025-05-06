@@ -25,6 +25,7 @@
         body {
             font-family: Arial, sans-serif;
             color: black;
+            margin-top:10px
             /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
             /* margin: 40px;
             padding: 10px; */
@@ -189,7 +190,7 @@
 <body style="margin: 0; padding: 0;">
     <table width="100%">
         <td style="text-align: left;">
-            <img src="{{ public_path('storage/uploads/gambar_logo/login2.png') }}" width="120" height="30"
+            <img src="{{ public_path('storage/uploads/gambar_logo/login.png') }}" width="80" height="40"
                 alt="Logo JavaTeknik">
         </td>
     </table>

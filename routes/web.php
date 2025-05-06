@@ -71,10 +71,19 @@ Route::middleware('admin')->prefix('admin')->group(
 
         Route::resource('inquery-popembelian', \App\Http\Controllers\Admin\InqueryPopembelianController::class);
         Route::resource('inquery-pembelian', \App\Http\Controllers\Admin\InqueryPembelianController::class);
+        Route::get('inquery-popembelian/unpost/{id}', [\App\Http\Controllers\Admin\InqueryPopembelianController::class, 'unpost']);
+        Route::get('inquery-popembelian/posting/{id}', [\App\Http\Controllers\Admin\InqueryPopembelianController::class, 'posting']);
+        Route::get('hapuspo/{id}', [\App\Http\Controllers\Admin\InqueryPopembelianController::class, 'hapuspo'])->name('hapuspo');
+        Route::get('inquery-pembelian/unpostpembelian/{id}', [\App\Http\Controllers\Admin\InqueryPembelianController::class, 'unpostpembelian']);
+        Route::get('inquery-pembelian/postingpembelian/{id}', [\App\Http\Controllers\Admin\InqueryPembelianController::class, 'postingpembelian']);
+        Route::get('hapuspembelian/{id}', [\App\Http\Controllers\Admin\InqueryPembelianController::class, 'hapuspembelian'])->name('hapuspembelian');
 
         Route::get('laporan-pembelian', [\App\Http\Controllers\Admin\LaporanPembelianController::class, 'index']);
-        Route::get('laporan-po-pembelian', [\App\Http\Controllers\Admin\LaporanPopembelianController::class, 'index']);
+        Route::get('laporan-popembelian', [\App\Http\Controllers\Admin\LaporanPopembelianController::class, 'index']);
         Route::get('print-laporanpopembelian', [\App\Http\Controllers\Admin\LaporanPopembelianController::class, 'print_laporanpopembelian']);
         Route::get('print-laporanpembelian', [\App\Http\Controllers\Admin\LaporanPembelianController::class, 'print_laporanpembelian']);
+
+        Route::get('popembelian/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PopembelianController::class, 'cetakpdf']);
+        Route::get('pembelian/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PembelianController::class, 'cetakpdf']);
     }
 );

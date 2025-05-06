@@ -219,7 +219,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input type="text" style="font-size:14px"
+                                                    <input readonly type="text" style="font-size:14px"
                                                         class="form-control total" id="total-0" name="total[]"
                                                         value="{{ $detail['total'] }}">
                                                 </div>
@@ -725,7 +725,7 @@
             // total
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" style="font-size:14px" class="form-control total" id="total-' + key +
+            item_pembelian += '<input readonly type="number" style="font-size:14px" class="form-control total" id="total-' + key +
                 '" name="total[]" value="' + total + '" readonly';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
