@@ -78,6 +78,7 @@ Route::middleware('admin')->prefix('admin')->group(
         Route::get('inquery-pembelian/postingpembelian/{id}', [\App\Http\Controllers\Admin\InqueryPembelianController::class, 'postingpembelian']);
         Route::get('hapuspembelian/{id}', [\App\Http\Controllers\Admin\InqueryPembelianController::class, 'hapuspembelian'])->name('hapuspembelian');
         Route::delete('inquery-pembelian/deletebarangs/{id}', [\App\Http\Controllers\Admin\InqueryPembelianController::class, 'deletebarangs']);
+        Route::delete('inquery-popembelian/deletedetailpo/{id}', [\App\Http\Controllers\Admin\InqueryPopembelianController::class, 'deletedetailpo']);
 
         Route::get('laporan-pembelian', [\App\Http\Controllers\Admin\LaporanPembelianController::class, 'index']);
         Route::get('laporan-popembelian', [\App\Http\Controllers\Admin\LaporanPopembelianController::class, 'index']);
