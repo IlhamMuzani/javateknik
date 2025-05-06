@@ -182,7 +182,7 @@
 
     <div>
         <p style="font-size: 13px; text-align: left;">Hormat Kami,</p>
-        <p style="font-size: 13px; text-align: left; font-weight:bold">CV. Tiger Load Engineering</p>
+        <p style="font-size: 13px; text-align: left; font-weight:bold">CV. Java Teknik Engineering</p>
         <br>
         <br>
         <br>

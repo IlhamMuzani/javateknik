@@ -106,7 +106,7 @@
     <div style="display: flex; justify-content: left; align-items: left; margin-top:30px">
         <table style="text-align: letf;">
             <tr>
-                <td style="font-size: 15px; font-weight: lighter;"> Dengan ini CV. Tiger Load engineering bermaksud
+                <td style="font-size: 15px; font-weight: lighter;"> Dengan ini CV. Java Teknik engineering bermaksud
                     untuk memesan barang dengan spesifikasi berikut :</td>
             </tr>
         </table>
