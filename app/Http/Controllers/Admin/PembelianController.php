@@ -222,35 +222,11 @@ class PembelianController extends Controller
                     'nama_barang' => $data_pesanan['nama_barang'],
                     'satuan_id' => $data_pesanan['satuan_id'],
                     'jumlah' => $data_pesanan['jumlah'],
-                    'harga' => $data_pesanan['harga'],
-                    'harga_jual' => $data_pesanan['harga_jual'],
-                    'diskon' => $data_pesanan['diskon'],
-                    'total' => $data_pesanan['total'],
+                    'harga' => str_replace('.', '', $data_pesanan['harga']),
+                    'harga_jual' => str_replace('.', '', $data_pesanan['harga_jual']),
+                    'diskon' => str_replace('.', '', $data_pesanan['diskon']),
+                    'total' => str_replace('.', '', $data_pesanan['total']),
                 ]);
-
-                // Check if the Detail_barang already exists
-                $existingDetailBarang = Detail_barang::where('supplier_id', $request->supplier_id)
-                    ->where('barang_id', $data_pesanan['barang_id'])
-                    ->where('harga', $data_pesanan['harga'])
-                    ->first();
-
-                if ($existingDetailBarang) {
-                    // If exists, update the jumlah
-                    $existingDetailBarang->jumlah += $data_pesanan['jumlah'];
-                    $existingDetailBarang->save();
-                } else {
-                    // If not exists, create a new Detail_barang
-                    Detail_barang::create([
-                        'pembelian_id' => $transaksi->id,
-                        'detailpembelian_id' => $detailPembelian->id,
-                        'supplier_id' => $request->supplier_id,
-                        'barang_id' => $data_pesanan['barang_id'],
-                        'jumlah' => $data_pesanan['jumlah'],
-                        'harga' => $data_pesanan['harga'],
-                        'tanggal_awal' => $tanggal,
-                        'status' => 'posting',
-                    ]);
-                }
             }
         }
 
@@ -314,12 +290,5 @@ class PembelianController extends Controller
 
             return $pdf->stream('Faktur_Pembelian.pdf');
 
-    }
-
-    public function supplier($id)
-    {
-        $supplier = Supplier::where('id', $id)->first();
-
-        return json_decode($supplier);
     }
 }

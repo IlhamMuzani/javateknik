@@ -151,10 +151,10 @@ class PembelianpoController extends Controller
                     'nama_barang' => $data_pesanan['nama_barang'],
                     'satuan_id' => $data_pesanan['satuan_id'],
                     'jumlah' => $data_pesanan['jumlah'],
-                    'harga' => $data_pesanan['harga'],
-                    'harga_jual' => $data_pesanan['harga_jual'],
-                    'diskon' => $data_pesanan['diskon'],
-                    'total' => $data_pesanan['total'],
+                    'harga' => str_replace('.', '', $data_pesanan['harga']),
+                    'harga_jual' => str_replace('.', '', $data_pesanan['harga_jual']),
+                    'diskon' => str_replace('.', '', $data_pesanan['diskon']),
+                    'total' => str_replace('.', '', $data_pesanan['total']),
                 ]);
             }
         }
@@ -193,7 +193,7 @@ class PembelianpoController extends Controller
             $num = sprintf("%06s", $idbr);
         }
 
-        $data = 'FS';
+        $data = 'FP';
         $kode_pembelian_part = $data . $num;
         return $kode_pembelian_part;
     }

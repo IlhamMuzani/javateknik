@@ -75,9 +75,11 @@
                             <label class="form-label" for="kategori">Kategori</label>
                             <select class="form-control" id="kategori" name="kategori">
                                 <option value="">- Pilih -</option>
-                                <option value="PPN" {{ old('kategori', $inquery->kategori) == 'PPN' ? 'selected' : null }}>
+                                <option value="PPN"
+                                    {{ old('kategori', $inquery->kategori) == 'PPN' ? 'selected' : null }}>
                                     PPN</option>
-                                <option value="NON PPN" {{ old('kategori', $inquery->kategori) == 'NON PPN' ? 'selected' : null }}>
+                                <option value="NON PPN"
+                                    {{ old('kategori', $inquery->kategori) == 'NON PPN' ? 'selected' : null }}>
                                     NON PPN</option>
                             </select>
                         </div>
@@ -195,17 +197,19 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input style="font-size:14px" type="number"
-                                                        class="form-control harga" id="harga-0" name="harga[]"
-                                                        data-row-id="0" value="{{ $detail['harga'] }}">
+                                                    <input style="font-size:14px" type="text"
+                                                        oninput="formatRupiah(this)" class="form-control harga"
+                                                        id="harga-0" name="harga[]" data-row-id="0"
+                                                        value="{{ number_format($detail['harga'], 0, ',', '.') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input style="font-size:14px" type="number"
+                                                    <input style="font-size:14px" type="text"
                                                         class="form-control harga_jual" id="harga_jual-0"
-                                                        name="harga_jual[]" data-row-id="0"
-                                                        value="{{ $detail['harga_jual'] }}">
+                                                        oninput="formatRupiah(this)" class="form-control harga_jual"
+                                                        id="harga_jual-0" name="harga_jual[]" data-row-id="0"
+                                                        value="{{ number_format($detail['harga_jual'], 0, ',', '.') }}">
                                                 </div>
                                             </td>
                                             <td>
@@ -218,8 +222,9 @@
                                             <td>
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text"
-                                                        class="form-control total" id="total-0" name="total[]"
-                                                        value="{{ $detail['total'] }}">
+                                                        oninput="formatRupiah(this)" class="form-control total"
+                                                        id="total-0" name="total[]" data-row-id="0"
+                                                        value="{{ number_format($detail['total'], 0, ',', '.') }}">
                                                 </div>
                                             </td>
                                             <td style="width: 100px">
@@ -535,17 +540,20 @@
         }
         document.getElementById("searchInput").addEventListener("input", filterTable);
 
-
         $(document).on("input", ".harga, .jumlah, .diskon", function() {
             var currentRow = $(this).closest('tr');
-            var harga = parseFloat(currentRow.find(".harga").val()) || 0;
-            var jumlah = parseFloat(currentRow.find(".jumlah").val()) || 0;
-            var diskon = parseFloat(currentRow.find(".diskon").val()) || 0;
+
+            // Hapus titik agar bisa dihitung
+            var harga = parseFloat(currentRow.find(".harga").val().replace(/\./g, '')) || 0;
+            var jumlah = parseFloat(currentRow.find(".jumlah").val().replace(/\./g, '')) || 0;
+            var diskon = parseFloat(currentRow.find(".diskon").val().replace(/\./g, '')) || 0;
+
             var total = harga * jumlah - diskon;
-            currentRow.find(".total").val(total);
 
-            updateGrandTotal()
+            // Format hasil total ke ribuan
+            currentRow.find(".total").val(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
+            updateGrandTotal();
         });
     </script>
 
@@ -598,7 +606,7 @@
 
             if (detailId) {
                 $.ajax({
-                    url: "{{ url('admin/inquery_pembelian/deletebarangs/') }}/" + detailId,
+                    url: "{{ url('admin/inquery-pembelian/deletebarangs/') }}/" + detailId,
                     type: "POST",
                     data: {
                         _method: 'DELETE',
@@ -698,7 +706,9 @@
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" style="font-size:14px" class="form-control harga" id="harga-' + key +
+            item_pembelian +=
+                '<input oninput="formatRupiah(this)" type="text" style="font-size:14px" class="form-control harga" id="harga-' +
+                key +
                 '" name="harga[]" value="' + harga + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -707,7 +717,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" style="font-size:14px" class="form-control harga_jual" id="harga_jual-' + key +
+                '<input type="text" style="font-size:14px" class="form-control harga_jual" id="harga_jual-' + key +
                 '" name="harga_jual[]" value="' + harga_jual + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -723,7 +733,7 @@
             // total
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" style="font-size:14px" class="form-control total" id="total-' + key +
+            item_pembelian += '<input type="text" style="font-size:14px" class="form-control total" id="total-' + key +
                 '" name="total[]" value="' + total + '" readonly';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -779,6 +789,14 @@
                 maximumFractionDigits: 1
             }).format(number);
             return '' + formatted;
+        }
+    </script>
+
+    <script>
+        function formatRupiah(el) {
+            let value = el.value.replace(/\D/g, ''); // hapus semua karakter non-digit
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // tambahkan titik pemisah ribuan
+            el.value = value;
         }
     </script>
 

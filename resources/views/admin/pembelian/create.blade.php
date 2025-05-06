@@ -10,7 +10,7 @@
                 <div class="col-sm-6">
                 </div><!-- /.col -->
                 <div class="col-sm-6">
-                    
+
                 </div>
             </div>
         </div>
@@ -61,8 +61,8 @@
 
                     <div class="card-body">
                         <div style="font-size:14px" class="form-group">
-                            <label class="form-label" for="jenis">Jenis Pembelian</label>
-                            <select style="font-size:14px" class="custom-select form-control" id="jenis" name="jenis">
+                            <label class="form-label" for="kategori">Jenis Pembelian</label>
+                            <select style="font-size:14px" class="custom-select form-control" id="kategori" name="kategori">
                                 <option value="">- Pilih -</option>
                                 <option value="po" selected>Purchase Order</option>
                                 <option value="non_po">NON Purchase Order</option>
@@ -197,14 +197,15 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input type="number" style="font-size:14px"
-                                                        class="form-control harga" id="harga-0" name="harga[]"
-                                                        data-row-id="0" value="{{ $detail['harga'] }}">
+                                                    <input type="text" class="form-control harga" id="harga-0"
+                                                        name="harga[]" oninput="formatRupiah(this)"
+                                                        value="{{ number_format($detail['harga'], 0, ',', '.') }}">
+
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input type="number" style="font-size:14px"
+                                                    <input type="text" style="font-size:14px"
                                                         class="form-control harga_jual" id="harga_jual-0"
                                                         name="harga_jual[]" data-row-id="0"
                                                         value="{{ $detail['harga_jual'] }}">
@@ -212,7 +213,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input type="number" style="font-size:14px"
+                                                    <input type="text" style="font-size:14px"
                                                         class="form-control diskon" id="diskon-0" name="diskon[]"
                                                         data-row-id="0" value="{{ $detail['diskon'] }}">
                                                 </div>
@@ -540,14 +541,18 @@
 
         $(document).on("input", ".harga, .jumlah, .diskon", function() {
             var currentRow = $(this).closest('tr');
-            var harga = parseFloat(currentRow.find(".harga").val()) || 0;
-            var jumlah = parseFloat(currentRow.find(".jumlah").val()) || 0;
-            var diskon = parseFloat(currentRow.find(".diskon").val()) || 0;
+
+            // Hapus titik agar bisa dihitung
+            var harga = parseFloat(currentRow.find(".harga").val().replace(/\./g, '')) || 0;
+            var jumlah = parseFloat(currentRow.find(".jumlah").val().replace(/\./g, '')) || 0;
+            var diskon = parseFloat(currentRow.find(".diskon").val().replace(/\./g, '')) || 0;
+
             var total = harga * jumlah - diskon;
-            currentRow.find(".total").val(total);
 
-            updateGrandTotal()
+            // Format hasil total ke ribuan
+            currentRow.find(".total").val(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
+            updateGrandTotal();
         });
     </script>
 
@@ -700,7 +705,9 @@
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" style="font-size:14px" class="form-control harga" id="harga-' + key +
+            item_pembelian +=
+                '<input type="text" oninput="formatRupiah(this)" style="font-size:14px" class="form-control harga" id="harga-' +
+                key +
                 '" name="harga[]" value="' + harga + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -709,7 +716,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" style="font-size:14px" class="form-control harga_jual" id="harga_jual-' + key +
+                '<input type="text" style="font-size:14px" class="form-control harga_jual" id="harga_jual-' + key +
                 '" name="harga_jual[]" value="' + harga_jual + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -725,7 +732,8 @@
             // total
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input readonly type="number" style="font-size:14px" class="form-control total" id="total-' + key +
+            item_pembelian += '<input readonly type="text" style="font-size:14px" class="form-control total" id="total-' +
+                key +
                 '" name="total[]" value="' + total + '" readonly';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -806,4 +814,13 @@
             });
         });
     </script>
+
+    <script>
+        function formatRupiah(el) {
+            let value = el.value.replace(/\D/g, ''); // hapus semua karakter non-digit
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // tambahkan titik pemisah ribuan
+            el.value = value;
+        }
+    </script>
+
 @endsection
