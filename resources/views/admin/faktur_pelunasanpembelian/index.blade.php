@@ -60,7 +60,7 @@
                     <h3 class="card-title">Data Pelunasan Faktur Pembelian</h3>
                     <div class="float-right">
                         @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Faktur Pembelian')->wherePivot('can_create', 1)->exists())
-                            <a href="{{ url('admin/faktur_pelunasanpembelian') }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('admin/pelunasan-pembelian/create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
                         @endif
