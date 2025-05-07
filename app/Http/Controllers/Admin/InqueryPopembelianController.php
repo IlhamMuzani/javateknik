@@ -106,10 +106,10 @@ class InqueryPopembelianController extends Controller
                     'barang_id.' . $i => 'required',
                     'kode_barang.' . $i => 'required',
                     'nama_barang.' . $i => 'required',
-                    // 'harga.' . $i => 'required',
+                    'harga.' . $i => 'required',
                     'jumlah.' . $i => 'required',
                     'satuan_id.' . $i => 'required',
-                    // 'total.' . $i => 'required',
+                    'total.' . $i => 'required',
                 ]);
 
                 if ($validasi_produk->fails()) {
@@ -119,20 +119,20 @@ class InqueryPopembelianController extends Controller
                 $barang_id = is_null($request->barang_id[$i]) ? '' : $request->barang_id[$i];
                 $kode_barang = is_null($request->kode_barang[$i]) ? '' : $request->kode_barang[$i];
                 $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
-                // $harga = is_null($request->harga[$i]) ? '' : $request->harga[$i];
+                $harga = is_null($request->harga[$i]) ? '' : $request->harga[$i];
                 $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
                 $satuan_id = is_null($request->satuan_id[$i]) ? '' : $request->satuan_id[$i];
-                // $total = is_null($request->total[$i]) ? '' : $request->total[$i];
+                $total = is_null($request->total[$i]) ? '' : $request->total[$i];
 
                 $data_pembelians->push([
                     'detail_id' => $request->detail_ids[$i] ?? null,
                     'barang_id' => $barang_id,
                     'kode_barang' => $kode_barang,
                     'nama_barang' => $nama_barang,
-                    // 'harga' => $harga,
+                    'harga' => $harga,
                     'jumlah' => $jumlah,
                     'satuan_id' => $satuan_id,
-                    // 'total' => $total
+                    'total' => $total
                 ]);
             }
         } else {
@@ -172,10 +172,10 @@ class InqueryPopembelianController extends Controller
                         'barang_id' => $data_pesanan['barang_id'],
                         'kode_barang' => $data_pesanan['kode_barang'],
                         'nama_barang' => $data_pesanan['nama_barang'],
-                        // 'harga' => $data_pesanan['harga'],
+                        'harga' => $data_pesanan['harga'],
                         'jumlah' => $data_pesanan['jumlah'],
                         'satuan_id' => $data_pesanan['satuan_id'],
-                        // 'total' => $data_pesanan['total'],
+                        'total' => $data_pesanan['total'],
                     ]);
                 }
             } else {
@@ -184,10 +184,10 @@ class InqueryPopembelianController extends Controller
                     'barang_id' => $data_pesanan['barang_id'],
                     'kode_barang' => $data_pesanan['kode_barang'],
                     'nama_barang' => $data_pesanan['nama_barang'],
-                    // 'harga' => $data_pesanan['harga'],
+                    'harga' => $data_pesanan['harga'],
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan_id' => $data_pesanan['satuan_id'],
-                    // 'total' => $data_pesanan['total'],
+                    'total' => $data_pesanan['total'],
                 ]);
             }
         }

@@ -115,9 +115,16 @@
                     <div class="card-header">
                         <h3 class="card-title">Tambah Barang</h3>
                         <div class="float-right">
-                            <button type="button" class="btn btn-primary btn-sm" id="addPesananBtn" onclick="addPesanan()">
-                                <i class="fas fa-plus"></i>
-                            </button>
+                            <div class="row">
+                                <a href="{{ ('create-barang') }}" type="button"
+                                    class="btn btn-primary btn-sm">
+                                    Tambah Barang
+                            </a>
+                                <button type="button" class="btn btn-primary btn-sm ml-2 mr-2" id="addPesananBtn"
+                                    onclick="addPesanan()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -128,8 +135,10 @@
                                     <th class="text-center">No</th>
                                     <th>Kode Barang</th>
                                     <th>Nama Barang</th>
+                                    <th>Harga</th>
                                     <th>Qty</th>
                                     <th>Satuan</th>
+                                    <th>Total</th>
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
@@ -153,12 +162,12 @@
                                                 id="nama_barang-0" readonly onclick="barang(0)" name="nama_barang[]">
                                         </div>
                                     </td>
-                                    {{-- <td>
+                                    <td>
                                         <div class="form-group">
                                             <input type="number" class="form-control harga" id="harga-0"
                                                 name="harga[]" data-row-id="0">
                                         </div>
-                                    </td> --}}
+                                    </td>
                                     <td>
                                         <div class="form-group">
                                             <input style="font-size:14px" type="number" class="form-control jumlah"
@@ -179,13 +188,13 @@
                                             </select>
                                         </div>
                                     </td>
-                                    {{--
+
                                     <td>
                                         <div class="form-group">
                                             <input type="text" class="form-control total" id="total-0"
                                                 name="total[]" readonly>
                                         </div>
-                                    </td> --}}
+                                    </td>
                                     <td style="width: 100px">
                                         <button type="button" class="btn btn-primary btn-sm" onclick="barang(0)">
                                             <i class="fas fa-plus"></i>
@@ -604,13 +613,13 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // harga
-            // item_pembelian += '<td>';
-            // item_pembelian += '<div class="form-group">'
-            // item_pembelian += '<input type="number" class="form-control harga" id="harga-' + urutan +
-            //     '" name="harga[]" value="' + harga + '" ';
-            // item_pembelian += '</div>';
-            // item_pembelian += '</td>';
+            harga
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="number" class="form-control harga" id="harga-' + urutan +
+                '" name="harga[]" value="' + harga + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
             // jumlah
             item_pembelian += '<td>';
@@ -633,13 +642,14 @@
             item_pembelian += '</select>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
-            // // total
-            // item_pembelian += '<td>';
-            // item_pembelian += '<div class="form-group">'
-            // item_pembelian += '<input type="number" class="form-control total" readonly id="total-' + urutan +
-            //     '" name="total[]" value="' + total + '" readonly';
-            // item_pembelian += '</div>';
-            // item_pembelian += '</td>';
+
+            // total
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="number" class="form-control total" readonly id="total-' + urutan +
+                '" name="total[]" value="' + total + '" readonly';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
             item_pembelian += '<td style="width: 100px">';
             item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="barang(' + urutan + ')">';

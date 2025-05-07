@@ -60,14 +60,6 @@
                     </div>
 
                     <div class="card-body">
-                        <div style="font-size:14px" class="form-group">
-                            <label class="form-label" for="kategori">Jenis Pembelian</label>
-                            <select style="font-size:14px" class="custom-select form-control" id="kategori" name="kategori">
-                                <option value="">- Pilih -</option>
-                                <option value="po" selected>Purchase Order</option>
-                                <option value="non_po">NON Purchase Order</option>
-                            </select>
-                        </div>
                         <div style="font-size:14px" hidden class="form-group">
                             <label class="form-label" for="popembelian_id">Popembelian_id</label>
                             <input readonly type="text" class="form-control" id="popembelian_id" name="popembelian_id"
@@ -222,7 +214,8 @@
                                                 <div class="form-group">
                                                     <input readonly type="text" style="font-size:14px"
                                                         class="form-control total" id="total-0" name="total[]"
-                                                        value="{{ $detail['total'] }}">
+                                                        oninput="formatRupiah(this)"
+                                                        value="{{ number_format($detail['total'], 0, ',', '.') }}">
                                                 </div>
                                             </td>
                                             <td style="width: 100px">

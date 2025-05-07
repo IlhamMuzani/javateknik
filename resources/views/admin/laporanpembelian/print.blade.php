@@ -140,7 +140,8 @@
             <td>
                 <div id="logo-container">
                     <!-- Tambahkan gambar logo di sini -->
-                    <img src="{{ public_path('storage/uploads/gambar_logo/login.png') }}" alt="Logo JavaTeknik">
+                    <img src="{{ public_path('storage/uploads/gambar_logo/login.png') }}" width="80" height="40"
+                        alt="Logo JavaTeknik">
                 </div>
             </td>
         </tr>

@@ -7,12 +7,15 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Bagian;
 use App\Models\Barang;
 use App\Models\Detailpembelian;
 use App\Models\Detailpopembelian;
+use App\Models\Merek;
 use App\Models\Pembelian;
 use App\Models\Popembelian;
 use App\Models\Satuan;
+use App\Models\Type;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,6 +29,83 @@ class PopembelianController extends Controller
         $barangs = Barang::all();
         $satuans = Satuan::all();
         return view('admin.popembelian.index', compact('satuans', 'poPembelians', 'suppliers', 'barangs'));
+    }
+
+    public function create_barang()
+    {
+        $mereks = Merek::get();
+        $types = Type::get();
+        $bagians = Bagian::get();
+        $satuans = Satuan::get();
+
+        $lastBarang = Barang::orderBy('kode_barang', 'desc')->first();
+        if ($lastBarang) {
+            $lastKodeBarang = $lastBarang->kode_barang;
+            $lastNumber = (int)substr($lastKodeBarang, 3); // Ambil angka setelah prefix
+            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+        } else {
+            $newNumber = '0001'; // Jika belum ada data, mulai dari 0001
+        }
+        return view('admin/popembelian.create_barang', compact('satuans', 'mereks', 'types', 'bagians', 'newNumber'));
+    }
+
+    public function add_barang(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'merek_id' => 'required',
+                'type_id' => 'required',
+                'bagian_id' => 'required',
+                'nama_barang' => 'required',
+                'satuan_id' => 'required',
+                // 'keterangan' => 'required',
+                'harga' => 'required',
+            ],
+            [
+                'merek_id.required' => 'Pilih Merek',
+                'type_id.required' => 'Pilih Type',
+                'bagian_id.required' => 'Pilih Bagian',
+                'nama_barang.required' => 'Masukkan nama barang',
+                'satuan_id.required' => 'Pilih Satuan',
+                // 'keterangan.required' => 'Masukkan keterangan',
+                'harga.required' => 'Masukkan harga',
+            ]
+        );
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            return back()->withInput()->with('error', $errors);
+        }
+
+
+        $tanggal = Carbon::now()->format('Y-m-d');
+        Barang::create(array_merge(
+            $request->all(),
+            [
+                'kode_last' => $request->kode_last,
+                'kode_barang' => $request->kode_barang,
+                'qrcode_barang' => 'https://javateknik.co.id/barang/' . $request->kode_barang,
+                'tanggal_awal' => $tanggal,
+
+            ]
+        ));
+
+        return redirect('admin/po-pembelian')->with('success', 'Berhasil menambahkan barang');
+    }
+
+    public function getByMerek($merekId)
+    {
+        $types = Type::where('merek_id', $merekId)->get();
+
+        return response()->json($types);
+    }
+
+    public function getByBagian($id)
+    {
+        $bagians = Bagian::where('id', $id)->first();
+
+        return response()->json($bagians);
     }
 
     public function store(Request $request)
@@ -54,10 +134,10 @@ class PopembelianController extends Controller
                     'barang_id.' . $i => 'required',
                     'kode_barang.' . $i => 'required',
                     'nama_barang.' . $i => 'required',
-                    // 'harga.' . $i => 'required',
+                    'harga.' . $i => 'required',
                     'jumlah.' . $i => 'required',
                     'satuan_id.' . $i => 'required',
-                    // 'total.' . $i => 'required',
+                    'total.' . $i => 'required',
                 ]);
 
                 if ($validasi_produk->fails()) {
@@ -68,19 +148,19 @@ class PopembelianController extends Controller
                 $barang_id = is_null($request->barang_id[$i]) ? '' : $request->barang_id[$i];
                 $kode_barang = is_null($request->kode_barang[$i]) ? '' : $request->kode_barang[$i];
                 $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
-                // $harga = is_null($request->harga[$i]) ? '' : $request->harga[$i];
+                $harga = is_null($request->harga[$i]) ? '' : $request->harga[$i];
                 $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
                 $satuan_id = is_null($request->satuan_id[$i]) ? '' : $request->satuan_id[$i];
-                // $total = is_null($request->total[$i]) ? '' : $request->total[$i];
+                $total = is_null($request->total[$i]) ? '' : $request->total[$i];
 
                 $data_pembelians->push([
                     'barang_id' => $barang_id,
                     'kode_barang' => $kode_barang,
                     'nama_barang' => $nama_barang,
-                    // 'harga' => $harga,
+                    'harga' => $harga,
                     'jumlah' => $jumlah,
                     'satuan_id' => $satuan_id,
-                    // 'total' => $total
+                    'total' => $total
                 ]);
             }
         } else {
@@ -121,6 +201,9 @@ class PopembelianController extends Controller
                     'nama_barang' => $data_pembelian['nama_barang'],
                     'jumlah' => $data_pembelian['jumlah'],
                     'satuan_id' => $data_pembelian['satuan_id'],
+                    'harga' => str_replace('.', '', $data_pembelian['harga']),
+                    'total' => str_replace('.', '', $data_pembelian['total']),
+
                 ]);
             }
         }

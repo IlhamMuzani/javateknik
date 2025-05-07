@@ -79,7 +79,7 @@ class PembelianpoController extends Controller
                     'satuan_id.' . $i => 'required',
                     'jumlah.' . $i => 'required',
                     'harga.' . $i => 'required',
-                    'harga_jual.' . $i => 'required',
+                    // 'harga_jual.' . $i => 'required',
                     // 'diskon.' . $i => 'required',
                     'total.' . $i => 'required',
                 ]);

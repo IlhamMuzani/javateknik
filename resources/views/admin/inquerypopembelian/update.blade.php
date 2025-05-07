@@ -113,10 +113,10 @@
                                     <th class="text-center">No</th>
                                     <th>Kode Barang</th>
                                     <th>Nama Barang</th>
-                                    {{-- <th>Harga</th> --}}
+                                    <th>Harga</th>
                                     <th>Qty</th>
                                     <th>Satuan</th>
-                                    {{-- <th>Total</th> --}}
+                                    <th>Total</th>
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
@@ -150,12 +150,12 @@
                                                     value="{{ $detail['nama_barang'] }}">
                                             </div>
                                         </td>
-                                        {{-- <td>
+                                        <td>
                                             <div class="form-group">
                                                 <input type="number" class="form-control harga" id="harga-0"
                                                     name="harga[]" data-row-id="0" value="{{ $detail['harga'] }}">
                                             </div>
-                                        </td> --}}
+                                        </td>
                                         <td>
                                             <div class="form-group">
                                                 <input style="font-size:14px" type="number" class="form-control jumlah"
@@ -179,12 +179,12 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        {{-- <td>
+                                        <td>
                                             <div class="form-group">
                                                 <input type="text" class="form-control total" id="total-0"
                                                     name="total[]" readonly value="{{ $detail['total'] }}">
                                             </div>
-                                        </td> --}}
+                                        </td>
                                         <td style="width: 100px">
                                             <button type="button" class="btn btn-primary btn-sm"
                                                 onclick="barang({{ $loop->index }})">
@@ -615,13 +615,13 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // // harga
-            // item_pembelian += '<td>';
-            // item_pembelian += '<div class="form-group">'
-            // item_pembelian += '<input type="number" class="form-control harga" id="harga-' + key +
-            //     '" name="harga[]" value="' + harga + '" ';
-            // item_pembelian += '</div>';
-            // item_pembelian += '</td>';
+            // harga
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="number" class="form-control harga" id="harga-' + key +
+                '" name="harga[]" value="' + harga + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
             // jumlah
             item_pembelian += '<td>';
@@ -647,13 +647,13 @@
             item_pembelian += '</td>'
 
 
-            // // total
-            // item_pembelian += '<td>';
-            // item_pembelian += '<div class="form-group">'
-            // item_pembelian += '<input type="number" class="form-control total" readonly id="total-' + key +
-            //     '" name="total[]" value="' + total + '" readonly';
-            // item_pembelian += '</div>';
-            // item_pembelian += '</td>';
+            // total
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="number" class="form-control total" readonly id="total-' + key +
+                '" name="total[]" value="' + total + '" readonly';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
             item_pembelian += '<td style="width: 100px">';
             item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="barang(' + key + ')">';

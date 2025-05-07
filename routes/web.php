@@ -66,6 +66,13 @@ Route::middleware('admin')->prefix('admin')->group(
         Route::resource('pembelian', \App\Http\Controllers\Admin\PembelianController::class);
         Route::get('pembelian/supplier/{id}', [\App\Http\Controllers\Admin\PembelianController::class, 'supplier']);
         Route::get('pembelian/popembelian/{id}', [\App\Http\Controllers\Admin\PembelianController::class, 'popembelian']);
+        Route::get('create-barang', [\App\Http\Controllers\Admin\PopembelianController::class, 'create_barang']);
+        Route::post('add-barang', [\App\Http\Controllers\Admin\PopembelianController::class, 'add_barang']);
+        Route::get('get-types-by-merek/{merekId}', [\App\Http\Controllers\Admin\PopembelianController::class, 'getByMerek']);
+        Route::get('get-bagians/{id}', [\App\Http\Controllers\Admin\PopembelianController::class, 'getByBagian']);
+        Route::get('generate-kode-barang', [\App\Http\Controllers\Admin\PopembelianController::class, 'generateKodeBarangFromPrefix']);
+
+
         Route::resource('pembelianpo', \App\Http\Controllers\Admin\PembelianpoController::class);
         Route::post('add_pembelian', [\App\Http\Controllers\Admin\PembelianpoController::class, 'add_pembelian']);
 
@@ -87,5 +94,18 @@ Route::middleware('admin')->prefix('admin')->group(
 
         Route::get('popembelian/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PopembelianController::class, 'cetakpdf']);
         Route::get('pembelian/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PembelianController::class, 'cetakpdf']);
+
+        Route::resource('pelunasan-pembelian', \App\Http\Controllers\Admin\PelunasanpembelianController::class);
+        Route::resource('inquery-pelunasan-pembelian', \App\Http\Controllers\Admin\InqueryFakturpelunasanpembelianController::class);
+        Route::get('pelunasan-pembelian/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PelunasanpembelianController::class, 'cetakpdf']);
+        Route::get('inquery-pelunasan-pembelian/unpost/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpembelianController::class, 'unpost']);
+        Route::get('inquery-pelunasan-pembelian/posting/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpembelianController::class, 'posting']);
+        Route::get('hapuspelunasanpembelian/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpembelianController::class, 'hapuspelunasanpembelian'])->name('hapuspelunasanpembelian');
+
+        Route::get('laporan-pelunasan-pembelian', [\App\Http\Controllers\Admin\LaporanPelunasanpembelianController::class, 'index']);
+        Route::get('print-pelunasan-pembelian', [\App\Http\Controllers\Admin\LaporanPelunasanpembelianController::class, 'print_pelunasanpembelian']);
+
+        Route::get('laporan-pelunasan-pembelian-global', [\App\Http\Controllers\Admin\LaporanPelunasanpembelianController::class, 'indexglobalpembelian']);
+        Route::get('print-pelunasan-pembelian-global', [\App\Http\Controllers\Admin\LaporanPelunasanpembelianController::class, 'print_pelunasanglobalpembelian']);
     }
 );

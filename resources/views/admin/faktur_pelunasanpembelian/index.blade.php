@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Pembelian')
+@section('title', 'Pelunasan Faktur Pembelian')
 
 @section('content')
-    <!-- Content Header (Page header) -->
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
         <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
     </div>
@@ -20,17 +19,18 @@
 
     <!-- Content Header (Page header) -->
     <div class="content-header" style="display: none;" id="mainContent">
-        {{-- <div class="container-fluid">
+        <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
+                    <h1 class="m-0">Pelunasan Faktur Pembelian</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Inquery Pembelian</li>
+                        <li class="breadcrumb-item active">Pelunasan Faktur Pembelian</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
-        </div><!-- /.container-fluid --> --}}
+        </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
 
@@ -46,93 +46,82 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-ban"></i> Gagal!
+                    </h5>
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Inquery Pembelian</h3>
+                    <h3 class="card-title">Data Pelunasan Faktur Pembelian</h3>
+                    <div class="float-right">
+                        @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Faktur Pembelian')->wherePivot('can_create', 1)->exists())
+                            <a href="{{ url('admin/faktur_pelunasanpembelian') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Tambah
+                            </a>
+                        @endif
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form method="GET" id="form-action">
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <select class="custom-select form-control" id="status" name="status">
-                                    <option value="">- Semua Status -</option>
-                                    <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
-                                        Posting
-                                    </option>
-                                    <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
-                                        Unpost</option>
-                                </select>
-                                <label for="status">(Pilih Status)</label>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
-                                    value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
-                                <label for="tanggal_awal">(Tanggal Awal)</label>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
-                                    value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
-                                <label for="tanggal_awal">(Tanggal Akhir)</label>
-                            </div>
-                            <div class="col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary mr-2" onclick="cari()">
-                                    <i class="fas fa-search"></i> Cari
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Kode Pembelian</th>
+                                <th>No Faktur </th>
                                 <th>Tanggal</th>
-                                <th>Nama Supplier</th>
-                                <th>Total</th>
-                                <th class="text-center" width="30">Opsi</th>
+                                <th>Admin</th>
+                                <th>Supplier</th>
+                                {{-- <th>PPH</th> --}}
+                                <th style="text-align: end">Total</th>
+                                <th style="width: 20px; text-align:center">Opsi</th>
                             </tr>
                         </thead>
-                        <tbody class="list">
-                            @foreach ($inquery as $pembelians)
-                                <tr class="dropdown"{{ $pembelians->id }}>
+                        <tbody>
+                            @foreach ($inquery as $fakturpelunasan)
+                                <tr class="dropdown"{{ $fakturpelunasan->id }}>
                                     <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>{{ $fakturpelunasan->kode_pelunasan }}</td>
+                                    <td>{{ $fakturpelunasan->tanggal_awal }}</td>
                                     <td>
-                                        {{ $pembelians->kode_pembelian }}
+                                        {{ $fakturpelunasan->user->karyawan->nama_lengkap }}
                                     </td>
                                     <td>
-                                        {{ $pembelians->tanggal_awal }}
+                                        {{ $fakturpelunasan->nama_supplier }}
                                     </td>
-                                    <td>
-                                        {{ $pembelians->supplier->nama_supp }}
-                                    </td>
-                                    <td>
-                                        Rp.
-                                        {{ number_format($pembelians->detail_pembelian->sum('harga'), 2, ',', '.') }}
+                                    {{-- <td style="text-align: end">
+                                        {{ number_format($fakturpelunasan->pph, 0, ',', '.') }}
+                                    </td> --}}
+                                    <td style="text-align: end">
+                                        {{ number_format($fakturpelunasan->totalpembayaran, 0, ',', '.') }}
                                     </td>
                                     <td class="text-center">
-                                        @if ($pembelians->status == 'posting')
+                                        @if ($fakturpelunasan->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($pembelians->status == 'unpost')
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_posting', 1)->exists())
+                                            @if ($fakturpelunasan->status == 'unpost')
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Faktur Pembelian')->wherePivot('can_posting', 1)->exists())
                                                     <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $pembelians->id }}">Posting</a>
+                                                        data-memo-id="{{ $fakturpelunasan->id }}">Posting</a>
                                                 @endif
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_update', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Faktur Pembelian')->wherePivot('can_update', 1)->exists())
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery-pembelian/' . $pembelians->id . '/edit') }}">Update</a>
+                                                        href="{{ url('admin/inquery-pelunasan-pembelian/' . $fakturpelunasan->id . '/edit') }}">Update</a>
                                                 @endif
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_show', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Faktur Pembelian')->wherePivot('can_show', 1)->exists())
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery-pembelian/' . $pembelians->id) }}">Show</a>
+                                                        href="{{ url('admin/pelunasan-pembelian/' . $fakturpelunasan->id) }}">Show</a>
                                                 @endif
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_delete', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Faktur Pembelian')->wherePivot('can_delete', 1)->exists())
                                                     <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapuspembelian', ['id' => $pembelians->id]) }}">
+                                                        action="{{ route('hapuspelunasanpembelian', ['id' => $fakturpelunasan->id]) }}">
                                                         <button type="submit"
                                                             class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                             </i> Delete
@@ -140,25 +129,24 @@
                                                     </form>
                                                 @endif
                                             @endif
-                                            @if ($pembelians->status == 'posting')
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_unpost', 1)->exists())
+                                            @if ($fakturpelunasan->status == 'posting')
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Faktur Pembelian')->wherePivot('can_unpost', 1)->exists())
                                                     <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $pembelians->id }}">Unpost</a>
+                                                        data-memo-id="{{ $fakturpelunasan->id }}">Unpost</a>
                                                 @endif
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_show', 1)->exists())
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Faktur Pembelian')->wherePivot('can_show', 1)->exists())
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery-pembelian/' . $pembelians->id) }}">Show</a>
+                                                        href="{{ url('admin/pelunasan-pembelian/' . $fakturpelunasan->id) }}">Show</a>
                                                 @endif
                                             @endif
-                                            @if ($pembelians->status == 'selesai')
-                                                @if (auth()->user()->menufiturs()->where('nama', 'Inquery Faktur Pembelian')->wherePivot('can_show', 1)->exists())
+                                            @if ($fakturpelunasan->status == 'selesai')
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Faktur Pembelian')->wherePivot('can_show', 1)->exists())
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery-pembelian/' . $pembelians->id) }}">Show</a>
+                                                        href="{{ url('admin/pelunasan-pembelian/' . $fakturpelunasan->id) }}">Show</a>
                                                 @endif
                                             @endif
                                         </div>
                                     </td>
-                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -178,35 +166,7 @@
             </div>
         </div>
     </section>
-    <!-- /.card -->
-    <script>
-        var tanggalAwal = document.getElementById('tanggal_awal');
-        var tanggalAkhir = document.getElementById('tanggal_akhir');
 
-        if (tanggalAwal.value == "") {
-            tanggalAkhir.readOnly = true;
-        }
-
-        tanggalAwal.addEventListener('change', function() {
-            if (this.value == "") {
-                tanggalAkhir.readOnly = true;
-            } else {
-                tanggalAkhir.readOnly = false;
-            }
-
-            tanggalAkhir.value = "";
-            var today = new Date().toISOString().split('T')[0];
-            tanggalAkhir.value = today;
-            tanggalAkhir.setAttribute('min', this.value);
-        });
-
-        var form = document.getElementById('form-action');
-
-        function cari() {
-            form.action = "{{ url('admin/inquery-pembelian') }}";
-            form.submit();
-        }
-    </script>
 
     {{-- unpost memo  --}}
     <script>
@@ -219,7 +179,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery-pembelian/unpostpembelian/') }}/" + memoId,
+                    url: "{{ url('admin/inquery-pelunasan-pembelian/unpost/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -259,7 +219,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery-pembelian/postingpembelian/') }}/" + memoId,
+                    url: "{{ url('admin/inquery-pelunasan-pembelian/posting') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -344,4 +304,5 @@
             });
         });
     </script>
+
 @endsection
