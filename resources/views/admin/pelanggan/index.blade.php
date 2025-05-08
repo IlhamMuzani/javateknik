@@ -25,7 +25,7 @@
                 <div class="col-sm-6">
                 </div><!-- /.col -->
                 <div class="col-sm-6">
-                   
+
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->

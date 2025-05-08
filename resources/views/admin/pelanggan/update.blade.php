@@ -10,7 +10,7 @@
                 <div class="col-sm-6">
                 </div><!-- /.col -->
                 <div class="col-sm-6">
-                   
+
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -39,6 +39,19 @@
                         <h3 class="card-title">Tambah Pelanggan</h3>
                     </div>
                     <div class="card-body">
+                        <div class="form-group  mb-3">
+                            <div class="form-group">
+                                <label class="form-label" for="golongan">Golongan</label>
+                                <select class="form-control" id="golongan_id" name="golongan_id">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($golongans as $golongan)
+                                        <option value="{{ $golongan->id }}"
+                                            {{ old('golongan_id', $pelanggan->golongan_id) == $golongan->id ? 'selected' : '' }}>
+                                            {{ $golongan->nama_golongan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="nama_pelanggan">Nama Pelanggan</label>
                             <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan"

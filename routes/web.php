@@ -107,5 +107,8 @@ Route::middleware('admin')->prefix('admin')->group(
 
         Route::get('laporan-pelunasan-pembelian-global', [\App\Http\Controllers\Admin\LaporanPelunasanpembelianController::class, 'indexglobalpembelian']);
         Route::get('print-pelunasan-pembelian-global', [\App\Http\Controllers\Admin\LaporanPelunasanpembelianController::class, 'print_pelunasanglobalpembelian']);
+
+        Route::resource('golongan', \App\Http\Controllers\Admin\GolonganController::class);
+        Route::resource('harga', \App\Http\Controllers\Admin\HargaController::class);
     }
 );

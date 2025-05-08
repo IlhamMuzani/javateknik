@@ -10,7 +10,7 @@
                 <div class="col-sm-6">
                 </div><!-- /.col -->
                 <div class="col-sm-6">
-                  
+
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -43,6 +43,19 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group  mb-3">
+                            <div class="form-group">
+                                <label class="form-label" for="golongan">Golongan</label>
+                                <select class="form-control" id="golongan_id" name="golongan_id">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($golongans as $golongan)
+                                        <option value="{{ $golongan->id }}"
+                                            {{ old('golongan_id') == $golongan->id ? 'selected' : '' }}>
+                                            {{ $golongan->nama_golongan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group  mb-3">
                             <label for="nama_pelanggan">Nama Pelanggan</label>
                             <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan"
                                 placeholder="Masukan nama pelanggan" value="{{ old('nama_pelanggan') }}">
@@ -71,7 +84,7 @@
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="gambar_ktp" name="gambar_ktp"
                                     accept="image/*">
-                                <label class="custom-file-label" for="gambar_ktp">Masukkan gambar</label>
+                                <label class="custom-file-label" for="gambar_ktp">Masukkan Foto KTP</label>
                             </div>
                         </div>
                     </div>

@@ -15,6 +15,7 @@ class Pelanggan extends Model
     use LogsActivity;
 
     protected $fillable = [
+        'golongan_id',
         'kode_pelanggan',
         'nama_pelanggan',
         'qrcode_pelanggan',
@@ -42,9 +43,9 @@ class Pelanggan extends Model
             ->logFillable('*');
     }
     
-    public function user()
+    public function golongan()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(Golongan::class);
     }
 
     public static function getId()

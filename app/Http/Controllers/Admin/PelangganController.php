@@ -10,6 +10,7 @@ use App\Models\Pelanggan;
 use App\Models\Departemen;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Golongan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,7 +24,8 @@ class PelangganController extends Controller
 
     public function create()
     {
-        return view('admin/pelanggan.create');
+        $golongans = Golongan::all();
+        return view('admin/pelanggan.create', compact('golongans'));
     }
 
     public function store(Request $request)
@@ -31,6 +33,7 @@ class PelangganController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
+                'golongan_id' => 'required',
                 'nama_pelanggan' => 'required',
                 'nama_alias' => 'required',
                 // 'gender' => 'required',
@@ -40,6 +43,7 @@ class PelangganController extends Controller
                 // 'gambar_ktp' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             ],
             [
+                'golongan_id.required' => 'Pilih Golongan',
                 'nama_pelanggan.required' => 'Masukkan nama lengkap',
                 'nama_alias.required' => 'Masukkan nama alias',
                 // 'gender.required' => 'Pilih gender',
@@ -69,6 +73,7 @@ class PelangganController extends Controller
         $pelanggan = Pelanggan::create(array_merge(
             $request->all(),
             [
+                'golongan_id' => $request->golongan_id,
                 'gambar_ktp' => $namaGambar,
                 'kode_pelanggan' => $this->kode(),
                 'qrcode_pelanggan' => 'https://tigerload.id/pelanggan/' . $kode,
@@ -76,17 +81,6 @@ class PelangganController extends Controller
 
             ]
         ));
-
-        User::create(array_merge(
-            $request->all(),
-            [
-                'pelanggan_id' => $pelanggan->id,
-                'karyawan_id' => null,
-                'kode_user' => $pelanggan->kode_pelanggan,
-                'level' => 'pelanggan',
-            ]
-        ));
-
         return redirect('admin/pelanggan')->with('success', 'Berhasil menambahkan pelanggan');
     }
 
@@ -112,7 +106,8 @@ class PelangganController extends Controller
     {
 
         $pelanggan = Pelanggan::where('id', $id)->first();
-        return view('admin/pelanggan.update', compact('pelanggan'));
+        $golongans = Golongan::all();
+        return view('admin/pelanggan.update', compact('pelanggan', 'golongans'));
     }
 
     public function update(Request $request, $id)
@@ -156,6 +151,7 @@ class PelangganController extends Controller
         }
 
         Pelanggan::where('id', $id)->update([
+            'golongan_id' => $request->golongan_id,
             'gambar_ktp' => $namaGambar,
             'nama_pelanggan' => $request->nama_pelanggan,
             'nama_alias' => $request->nama_alias,
