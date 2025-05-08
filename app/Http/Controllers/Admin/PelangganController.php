@@ -73,6 +73,7 @@ class PelangganController extends Controller
         $pelanggan = Pelanggan::create(array_merge(
             $request->all(),
             [
+                'kategori' => $request->kategori,
                 'golongan_id' => $request->golongan_id,
                 'gambar_ktp' => $namaGambar,
                 'kode_pelanggan' => $this->kode(),
@@ -152,6 +153,7 @@ class PelangganController extends Controller
 
         Pelanggan::where('id', $id)->update([
             'golongan_id' => $request->golongan_id,
+            'kategori' => $request->kategori,
             'gambar_ktp' => $namaGambar,
             'nama_pelanggan' => $request->nama_pelanggan,
             'nama_alias' => $request->nama_alias,

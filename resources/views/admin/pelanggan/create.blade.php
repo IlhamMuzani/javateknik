@@ -42,7 +42,17 @@
                         <h3 class="card-title">Tambah Pelanggan</h3>
                     </div>
                     <div class="card-body">
-                        <div class="form-group  mb-3">
+                        <div class="form-group">
+                            <label class="form-label" for="kategori">Kategori</label>
+                            <select class="form-control" id="katPegori" name="kategori">
+                                <option value="">- Pilih -</option>
+                                <option value="PPN" {{ old('kategori') == 'PPN' ? 'selected' : null }}>
+                                    PPN</option>
+                                <option value="NON PPN" {{ old('kategori') == 'NON PPN' ? 'selected' : null }}>
+                                    NON PPN</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
                             <div class="form-group">
                                 <label class="form-label" for="golongan">Golongan</label>
                                 <select class="form-control" id="golongan_id" name="golongan_id">
