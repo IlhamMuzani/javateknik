@@ -98,7 +98,7 @@ class PelangganController extends Controller
             $num = sprintf("%06s", $idbr);
         }
 
-        $data = 'AH';
+        $data = 'AP';
         $kode_pelanggan = $data . $num;
         return $kode_pelanggan;
     }

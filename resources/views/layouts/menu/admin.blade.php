@@ -32,6 +32,8 @@
     request()->is('admin/merek*') ||
     request()->is('admin/type*') ||
     request()->is('admin/bagian*') ||
+    request()->is('admin/harga*') ||
+    request()->is('admin/pelanggan*') ||
     request()->is('admin/barang*')
         ? 'menu-open'
         : '' }}">
@@ -46,6 +48,8 @@
         request()->is('admin/merek*') ||
         request()->is('admin/type*') ||
         request()->is('admin/bagian*') ||
+        request()->is('admin/harga*') ||
+        request()->is('admin/pelanggan*') ||
         request()->is('admin/barang*')
             ? 'active'
             : '' }}">
