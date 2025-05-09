@@ -44,10 +44,10 @@
                             <select class="form-control" id="kategori" name="kategori">
                                 <option value="">- Pilih -</option>
                                 <option value="PPN"
-                                    {{ old('kategori', $inquery->kategori) == 'PPN' ? 'selected' : null }}>
+                                    {{ old('kategori', $pelanggan->kategori) == 'PPN' ? 'selected' : null }}>
                                     PPN</option>
                                 <option value="NON PPN"
-                                    {{ old('kategori', $inquery->kategori) == 'NON PPN' ? 'selected' : null }}>
+                                    {{ old('kategori', $pelanggan->kategori) == 'NON PPN' ? 'selected' : null }}>
                                     NON PPN</option>
                             </select>
                         </div>
