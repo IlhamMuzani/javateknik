@@ -367,20 +367,15 @@
                                         <td>{{ $barang->nama_barang }}</td>
                                         <td>{{ $barang->merek->nama_merek ?? null }}</td>
                                         <td class="harga_a">
-                                            {{ number_format($barang->harga->first()->harga_a, 0, ',', '.') }}
-                                        </td>
+                                            {{ number_format($barang->harga->first()->harga_a ?? 0, 0, ',', '.') }}</td>
                                         <td class="harga_b">
-                                            {{ number_format($barang->harga->first()->harga_b, 0, ',', '.') }}
-                                        </td>
+                                            {{ number_format($barang->harga->first()->harga_b ?? 0, 0, ',', '.') }}</td>
                                         <td class="harga_c">
-                                            {{ number_format($barang->harga->first()->harga_c, 0, ',', '.') }}
-                                        </td>
+                                            {{ number_format($barang->harga->first()->harga_c ?? 0, 0, ',', '.') }}</td>
                                         <td class="harga_d">
-                                            {{ number_format($barang->harga->first()->harga_d, 0, ',', '.') }}
-                                        </td>
+                                            {{ number_format($barang->harga->first()->harga_d ?? 0, 0, ',', '.') }}</td>
                                         <td class="harga_e">
-                                            {{ number_format($barang->harga->first()->harga_e, 0, ',', '.') }}
-                                        </td>
+                                            {{ number_format($barang->harga->first()->harga_e ?? 0, 0, ',', '.') }}</td>
                                         <td>
                                             <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
                                                 onclick="getBarang({{ $loop->index }})">

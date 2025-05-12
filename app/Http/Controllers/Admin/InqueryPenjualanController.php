@@ -162,8 +162,30 @@ class InqueryPenjualanController extends Controller
                 $detailToUpdate = Detailpenjualan::find($detailId);
 
                 if ($detailToUpdate) {
-                    // Update Detail_pembelianpart
-                    $detailToUpdate->update([
+                    $barang = Barang::find($data_pesanan['barang_id']);
+                    if ($barang) {
+                        $jumlah_barang = $barang->jumlah - $data_pesanan['jumlah'];
+                        $barang->update(['jumlah' => $jumlah_barang]);
+                        $detailToUpdate->update([
+                            'penjualan_id' => $transaksi->id,
+                            'barang_id' => $data_pesanan['barang_id'],
+                            'qrcode_barang' => $data_pesanan['qrcode_barang'],
+                            'kode_barang' => $data_pesanan['kode_barang'],
+                            'nama_barang' => $data_pesanan['nama_barang'],
+                            'jumlah' => $data_pesanan['jumlah'],
+                            'diskon' => str_replace('.', '', $data_pesanan['diskon'] ?? '0'),
+                            'satuan_id' => $data_pesanan['satuan_id'],
+                            'harga' => str_replace('.', '', $data_pesanan['harga']),
+                            'total' => str_replace('.', '', $data_pesanan['total']),
+                        ]);
+                    }
+                }
+            } else {
+                $barang = Barang::find($data_pesanan['barang_id']);
+                if ($barang) {
+                    $jumlah_barang = $barang->jumlah - $data_pesanan['jumlah'];
+                    $barang->update(['jumlah' => $jumlah_barang]);
+                    Detailpenjualan::create([
                         'penjualan_id' => $transaksi->id,
                         'barang_id' => $data_pesanan['barang_id'],
                         'qrcode_barang' => $data_pesanan['qrcode_barang'],
@@ -176,19 +198,6 @@ class InqueryPenjualanController extends Controller
                         'total' => str_replace('.', '', $data_pesanan['total']),
                     ]);
                 }
-            } else {
-                Detailpenjualan::create([
-                    'penjualan_id' => $transaksi->id,
-                    'barang_id' => $data_pesanan['barang_id'],
-                    'qrcode_barang' => $data_pesanan['qrcode_barang'],
-                    'kode_barang' => $data_pesanan['kode_barang'],
-                    'nama_barang' => $data_pesanan['nama_barang'],
-                    'jumlah' => $data_pesanan['jumlah'],
-                    'diskon' => str_replace('.', '', $data_pesanan['diskon'] ?? '0'),
-                    'satuan_id' => $data_pesanan['satuan_id'],
-                    'harga' => str_replace('.', '', $data_pesanan['harga']),
-                    'total' => str_replace('.', '', $data_pesanan['total']),
-                ]);
             }
         }
 
