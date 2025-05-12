@@ -1124,6 +1124,8 @@
                                 });
 
                                 removePesanan(currentRowIndex); // Hapus baris jika kosong
+                                closeTableBarang();
+
                             }
                         }
                         $('#scanInput').val(''); // Kosongkan input scan
