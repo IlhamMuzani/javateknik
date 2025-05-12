@@ -256,14 +256,6 @@ class PembelianController extends Controller
         return $kode_pembelian_part;
     }
 
-
-    public function sparepart($id)
-    {
-        $sparepart = Barang::where('id', $id)->first();
-
-        return json_decode($sparepart);
-    }
-
     public function show($id)
     {
 

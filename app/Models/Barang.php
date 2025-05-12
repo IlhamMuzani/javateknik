@@ -28,7 +28,7 @@ class Barang extends Model
         'jumlah',
         'spesifikasi',
         'keterangan',
-        'harga',
+        'harga_barang',
         'tanggal_awal',
         'tanggal_akhir',
     ];
@@ -55,6 +55,11 @@ class Barang extends Model
     public function bagian()
     {
         return $this->belongsTo(Bagian::class);
+    }
+
+    public function harga()
+    {
+        return $this->hasMany(Harga::class);
     }
 
     public static function getId()

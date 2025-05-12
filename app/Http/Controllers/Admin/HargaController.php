@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Barang;
 use App\Models\Golongan;
 use App\Models\Harga;
 use Illuminate\Support\Facades\Validator;
@@ -15,10 +16,12 @@ class HargaController extends Controller
 {
     public function index(Request $request)
     {
+        $barangs = Barang::all();
+
         if ($request->has('keyword')) {
             $keyword = $request->keyword;
             $hargas = Harga::where('kode_harga', 'like', "%$keyword%")
-                ->orWhere('nama_harga', 'like', "%$keyword%")
+                ->orWhere('barang_id', 'like', "%$keyword%")
                 ->orderBy('created_at', 'desc')
                 ->paginate(10)
                 ->appends($request->only('keyword', 'status'));
@@ -28,15 +31,15 @@ class HargaController extends Controller
                 ->appends($request->only('keyword', 'status'));
         }
 
-        return view('admin.harga.index', compact('hargas'));
+        return view('admin.harga.index', compact('hargas','barangs'));
     }
 
     public function create()
     {
 
         $harga = Harga::all();
-
-        return view('admin/harga.create', compact('harga'));
+        $barangs = Barang::all();
+        return view('admin/harga.create', compact('harga', 'barangs'));
     }
 
     public function store(Request $request)
@@ -44,10 +47,10 @@ class HargaController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'nama_harga' => 'required',
+                'barang_id' => 'required',
             ],
             [
-                'nama_harga.required' => 'Masukkan tujuan',
+                'barang_id.required' => 'Masukkan barang',
             ]
         );
 
@@ -57,14 +60,14 @@ class HargaController extends Controller
         }
 
         $kode = $this->kode();
-        $nama_rute_uppercase = strtoupper($request->nama_harga);
+        // $nama_rute_uppercase = strtoupper($request->barang_id);
         Harga::create(array_merge(
             $request->all(),
             [
                 'kode_harga' => $this->kode(),
                 'qrcode_harga' => 'https://javateknik.id/harga/' . $kode,
                 // 'kategori' =>  $request->kategori,
-                'nama_harga' =>  $nama_rute_uppercase,
+                'barang_id' =>  $request->barang_id,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
                 'harga_a' => $request->harga_a ? str_replace('.', '', $request->harga_a) : null,
                 'harga_b' => $request->harga_b ? str_replace('.', '', $request->harga_b) : null,
@@ -75,6 +78,13 @@ class HargaController extends Controller
         ));
 
         return redirect('admin/harga')->with('success', 'Berhasil menambahkan harga');
+    }
+
+    public function barang($id)
+    {
+        $barang = Barang::where('id', $id)->first();
+
+        return json_decode($barang);
     }
 
     public function kode()
@@ -104,10 +114,10 @@ class HargaController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'nama_harga' => 'required',
+                'barang_id' => 'required',
             ],
             [
-                'nama_harga.required' => 'Masukkan tujuan',
+                'barang_id.required' => 'Masukkan barang',
             ]
         );
 
@@ -115,10 +125,10 @@ class HargaController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
-        $nama_rute_uppercase = strtoupper($request->nama_harga);
+        $nama_rute_uppercase = strtoupper($request->barang_id);
         $harga = Harga::findOrFail($id);
 
-        $harga->nama_harga = $nama_rute_uppercase;
+        $harga->barang_id = $request->barang_id;
         $harga->harga_a = $request->harga_a ? str_replace('.', '', $request->harga_a) : null;
         $harga->harga_b = $request->harga_b ? str_replace('.', '', $request->harga_b) : null;
         $harga->harga_c = $request->harga_c ? str_replace('.', '', $request->harga_c) : null;
@@ -128,7 +138,7 @@ class HargaController extends Controller
 
         $harga->save();
 
-        return back()->with('success', 'Berhasil memperbarui harga: ' . $harga->nama_harga);
+        return back()->with('success', 'Berhasil memperbarui harga');
     }
 
 

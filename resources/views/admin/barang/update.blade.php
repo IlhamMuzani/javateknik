@@ -157,13 +157,14 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="harga">Harga</label>
-                            <input type="text" class="form-control" id="harga" name="harga"
-                                placeholder="Masukan harga" value="{{ old('harga', $barang->harga) }}">
+                            <label for="harga_barang">Harga</label>
+                            <input type="text" class="form-control" id="harga_barang" name="harga_barang"
+                                placeholder="Masukan harga_barang"
+                                value="{{ old('harga_barang', $barang->harga_barang) }}">
                         </div>
 
                         <script>
-                            const hargaInput = document.getElementById('harga');
+                            const hargaInput = document.getElementById('harga_barang');
                             hargaInput.addEventListener('input', function(e) {
                                 let value = this.value.replace(/[^\d]/g, '');
                                 this.value = new Intl.NumberFormat('id-ID').format(value);

@@ -104,7 +104,7 @@
                                             </td>
                                             <td>{{ $harga->kode_harga }}
                                             </td>
-                                            <td>{{ $harga->nama_harga }}
+                                            <td>{{ $harga->barang->nama_barang ?? null }}
                                             </td>
                                             <td class="text-right">
                                                 {{ number_format($harga->harga_a, 0, ',', '.') }}

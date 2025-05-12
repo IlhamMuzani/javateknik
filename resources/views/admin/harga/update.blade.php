@@ -22,12 +22,32 @@
                             <h3 class="card-title">Informasi Harga</h3>
                         </div>
                         <div class="card-body">
+                            <div style="font-size:14px" class="form-group" style="flex: 8;">
+                                <label for="barang_id">Barang</label>
+                                <select class="form-control select2-barang" name="barang_id"
+                                    data-placeholder="Cari Barang.." style="width: 100%;"
+                                    id="barang_id_{{ $harga->id }}" onchange="getData({{ $harga->id }})">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($barangs as $barang)
+                                        <option value="{{ $barang->id }}"
+                                            {{ old('barang_id', $harga->barang_id) == $barang->id ? 'selected' : '' }}>
+                                            {{ $barang->nama_barang }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="form-group">
+                                <label for="kode_barang">Kode Barang</label>
+                                <input readonly type="text" class="form-control" id="kode_barang_{{ $harga->id }}"
+                                    name="kode_barang"
+                                    value="{{ old('kode_barang', $harga->barang->kode_barang ?? null) }}">
+                            </div>
+                            {{-- <div class="form-group">
                                 <label for="nama_harga">Nama Harga</label>
                                 <input type="text" class="form-control" id="nama_harga" name="nama_harga"
                                     style="text-transform: uppercase;" placeholder="masukkan harga"
                                     value="{{ old('nama_harga', $harga->nama_harga) }}">
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 
@@ -105,5 +125,33 @@
                 input.value = value;
             }
         </script>
+
+        <script>
+            function getData(id) {
+                var barangSelect = document.getElementById('barang_id_' + id);
+                var kodeInput = document.getElementById('kode_barang_' + id);
+
+                $.ajax({
+                    url: "{{ url('admin/harga/barang') }}/" + barangSelect.value,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        kodeInput.value = response.kode_barang;
+                    },
+                });
+            }
+        </script>
+
+        <script>
+            // Ketika modal ditampilkan, inisialisasi select2
+            $(document).on('shown.bs.modal', function(e) {
+                $(e.target).find('.select2-barang').select2({
+                    theme: 'bootstrap4',
+                    dropdownParent: $(e.target).find('.modal-content')
+                });
+            });
+        </script>
+
+
     </div>
 </div>

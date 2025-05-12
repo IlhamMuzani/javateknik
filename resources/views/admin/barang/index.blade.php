@@ -85,6 +85,7 @@
                                 <th>Type</th>
                                 <th>Bagian</th>
                                 <th>Stok</th>
+                                {{-- <th>Harga</th> --}}
                                 <th class="text-center">Qr Code</th>
                                 <th class="text-center" width="140">Opsi</th>
                             </tr>
@@ -101,6 +102,7 @@
                                     <td>{{ $barang->type->nama_type ?? null }}</td>
                                     <td>{{ $barang->bagian->nama_bagian ?? null }}</td>
                                     <td>{{ $barang->jumlah }}</td>
+                                    {{-- <td>{{ $barang->harga->first()->id ?? null }}</td> --}}
                                     {{-- <td>{{ $barang->harga }}</td> --}}
                                     <td data-toggle="modal" data-target="#modal-qrcode-{{ $barang->id }}"
                                         style="text-align: center;">

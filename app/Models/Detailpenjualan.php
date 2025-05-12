@@ -9,25 +9,24 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Harga extends Model
+class Detailpenjualan extends Model
 {
     use HasFactory;
     use LogsActivity;
 
-    protected $fillable =
-    [
-        'kategori',
+    protected $fillable = [
+        'penjualan_id',
         'barang_id',
-        'kode_harga',
-        'nama_harga',
-        'qrcode_harga',
-        'harga_a',
-        'harga_b',
-        'harga_c',
-        'harga_d',
-        'harga_e',
-        'keterangan',
+        'kode_barang',
+        'qrcode_barang',
+        'nama_barang',
+        'jumlah',
+        'satuan_id',
+        'diskon',
+        'harga',
+        'total',
         'tanggal_awal',
+        'tanggal_akhir',
     ];
 
     use SoftDeletes;
@@ -39,14 +38,13 @@ class Harga extends Model
             ->logFillable('*');
     }
 
-    public function barang()
+    public function Penjualan()
     {
-        return $this->belongsTo(Barang::class);
+        return $this->belongsTo(Penjualan::class);
     }
 
-
-    public static function getId()
+    public function satuan()
     {
-        return $getId = DB::table('hargas')->orderBy('id', 'DESC')->take(1)->get();
+        return $this->belongsTo(Satuan::class);
     }
 }

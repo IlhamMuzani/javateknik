@@ -45,11 +45,30 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <div style="font-size:14px" class="form-group" style="flex: 8;">
+                            <label for="barang_id">Barang</label>
+                            <select class="select2bs4 select2-hidden-accessible" name="barang_id"
+                                data-placeholder="Cari Barang.." style="width: 100%;" data-select2-id="23" tabindex="-1"
+                                aria-hidden="true" id="barang_id" onchange="getData(0)">
+                                <option value="">- Pilih -</option>
+                                @foreach ($barangs as $barang)
+                                    <option value="{{ $barang->id }}"
+                                        {{ old('barang_id') == $barang->id ? 'selected' : '' }}>
+                                        {{ $barang->nama_barang }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-group">
+                            <label for="kode_barang">Kode Barang</label>
+                            <input readonly type="text" class="form-control" id="kode_barang" name="kode_barang"
+                                placeholder="" value="{{ old('kode_barang') }}">
+                        </div>
+                        {{-- <div class="form-group">
                             <label for="nama_harga">Nama Harga</label>
                             <input style="text-transform:uppercase" type="text" class="form-control" id="nama_harga"
                                 name="nama_harga" placeholder="Masukkan Nama Harga" value="{{ old('nama_harga') }}">
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>
@@ -134,6 +153,21 @@
 
             // Tampilkan nilai yang sudah diformat ke dalam input
             input.value = value;
+        }
+    </script>
+
+    <script>
+        function getData(id) {
+            var barang_id = document.getElementById('barang_id');
+            $.ajax({
+                url: "{{ url('admin/harga/barang') }}" + "/" + barang_id.value,
+                type: "GET",
+                dataType: "json",
+                success: function(barang_id) {
+                    var kode_barang = document.getElementById('kode_barang');
+                    kode_barang.value = barang_id.kode_barang;
+                },
+            });
         }
     </script>
 @endsection

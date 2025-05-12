@@ -87,9 +87,9 @@ Route::middleware('admin')->prefix('admin')->group(
         Route::delete('inquery-pembelian/deletebarangs/{id}', [\App\Http\Controllers\Admin\InqueryPembelianController::class, 'deletebarangs']);
         Route::delete('inquery-popembelian/deletedetailpo/{id}', [\App\Http\Controllers\Admin\InqueryPopembelianController::class, 'deletedetailpo']);
 
-        Route::get('laporan-pembelian', [\App\Http\Controllers\Admin\LaporanPembelianController::class, 'index']);
         Route::get('laporan-popembelian', [\App\Http\Controllers\Admin\LaporanPopembelianController::class, 'index']);
         Route::get('print-laporanpopembelian', [\App\Http\Controllers\Admin\LaporanPopembelianController::class, 'print_laporanpopembelian']);
+        Route::get('laporan-pembelian', [\App\Http\Controllers\Admin\LaporanPembelianController::class, 'index']);
         Route::get('print-laporanpembelian', [\App\Http\Controllers\Admin\LaporanPembelianController::class, 'print_laporanpembelian']);
 
         Route::get('popembelian/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PopembelianController::class, 'cetakpdf']);
@@ -110,5 +110,16 @@ Route::middleware('admin')->prefix('admin')->group(
 
         Route::resource('golongan', \App\Http\Controllers\Admin\GolonganController::class);
         Route::resource('harga', \App\Http\Controllers\Admin\HargaController::class);
+        Route::get('harga/barang/{id}', [\App\Http\Controllers\Admin\HargaController::class, 'barang']);
+
+        Route::resource('penjualan', \App\Http\Controllers\Admin\PenjualanController::class);
+        Route::resource('inquery-penjualan', \App\Http\Controllers\Admin\InqueryPenjualanController::class);
+        Route::get('penjualan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PenjualanController::class, 'cetakpdf']);
+        Route::get('hapuspenjualan/{id}', [\App\Http\Controllers\Admin\InqueryPenjualanController::class, 'hapuspenjualan'])->name('hapuspenjualan');
+        Route::delete('inquery-penjualan/deletedetailpenjualan/{id}', [\App\Http\Controllers\Admin\InqueryPenjualanController::class, 'deletedetailpenjualan']);
+        Route::get('inquery-penjualan/unpostpenjualan/{id}', [\App\Http\Controllers\Admin\InqueryPenjualanController::class, 'unpost']);
+        Route::get('inquery-penjualan/postingpenjualan/{id}', [\App\Http\Controllers\Admin\InqueryPenjualanController::class, 'posting']);
+        Route::get('laporan-penjualan', [\App\Http\Controllers\Admin\LaporanPenjualanController::class, 'index']);
+        Route::get('print-laporanpenjualan', [\App\Http\Controllers\Admin\LaporanPenjualanController::class, 'print_laporanpenjualan']);
     }
 );

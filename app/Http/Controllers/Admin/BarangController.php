@@ -76,7 +76,7 @@ class BarangController extends Controller
                 'nama_barang' => 'required',
                 'satuan_id' => 'required',
                 // 'keterangan' => 'required',
-                'harga' => 'required',
+                'harga_barang' => 'required',
             ],
             [
                 'merek_id.required' => 'Pilih Merek',
@@ -85,7 +85,7 @@ class BarangController extends Controller
                 'nama_barang.required' => 'Masukkan nama barang',
                 'satuan_id.required' => 'Pilih Satuan',
                 // 'keterangan.required' => 'Masukkan keterangan',
-                'harga.required' => 'Masukkan harga',
+                'harga_barang.required' => 'Masukkan harga_barang',
             ]
         );
 
@@ -101,6 +101,7 @@ class BarangController extends Controller
             [
                 'kode_last' => $request->kode_last,
                 'kode_barang' => $request->kode_barang,
+                'harga_barang' => str_replace(',', '.', str_replace('.', '', $request->harga_barang)),
                 'qrcode_barang' => 'https://javateknik.co.id/barang/' . $request->kode_barang,
                 'tanggal_awal' => $tanggal,
 
@@ -134,7 +135,7 @@ class BarangController extends Controller
                 // 'jumlah' => 'required',
                 'satuan_id' => 'required',
                 // 'keterangan' => 'required',
-                'harga' => 'required',
+                'harga_barang' => 'required',
             ],
             [
                 'merek_id.required' => 'Pilih Merek',
@@ -144,7 +145,7 @@ class BarangController extends Controller
                 // 'jumlah.required' => 'Masukkan ukuran',
                 'satuan_id.required' => 'Pilih Satuan',
                 // 'keterangan.required' => 'Masukkan keterangan',
-                'harga.required' => 'Masukkan harga',
+                'harga_barang.required' => 'Masukkan harga_barang',
             ]
         );
 
@@ -162,7 +163,7 @@ class BarangController extends Controller
             'nama_barang' => $request->nama_barang,
             'jumlah' => $request->jumlah,
             'satuan_id' => $request->satuan_id,
-            'harga' => str_replace(',', '.', str_replace('.', '', $request->harga)),
+            'harga_barang' => str_replace(',', '.', str_replace('.', '', $request->harga_barang)),
             'keterangan' => $request->keterangan,
         ]);
 
