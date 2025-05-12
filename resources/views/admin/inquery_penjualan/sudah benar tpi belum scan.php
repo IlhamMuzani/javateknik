@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Penjualan')
+@section('title', 'Inquery penjualan')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -157,7 +157,6 @@
                                 <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
                                     <i class="fas fa-plus"></i>
                                 </button>
-                                <input type="text" id="scanInput" placeholder="Scan Barcode" oninput="handleScan()">
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -177,9 +176,9 @@
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tabel-pembelian">
+                                <tbody id="tabel-penjualan">
                                     @foreach ($details as $detail)
-                                        <tr id="pembelian-{{ $loop->index }}">
+                                        <tr id="penjualan-{{ $loop->index }}">
                                             <td style="width: 70px; font-size:14px" class="text-center" id="urutan">
                                                 {{ $loop->index + 1 }}
                                             </td>
@@ -197,23 +196,21 @@
                                                         value="{{ $detail['barang_id'] }}">
                                                 </div>
                                             </td>
-                                            <td hidden onclick="barangModal({{ $loop->index }})">
+                                            <td hidden onclick="barang({{ $loop->index }})">
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text" readonly
-                                                        class="form-control qrcode_barang"
-                                                        id="qrcode_barang-{{ $loop->index }}" name="qrcode_barang[]"
-                                                        value="{{ $detail['qrcode_barang'] }}">
+                                                        class="form-control" id="qrcode_barang-{{ $loop->index }}"
+                                                        name="qrcode_barang[]" value="{{ $detail['qrcode_barang'] }}">
                                                 </div>
                                             </td>
-                                            <td onclick="barangModal({{ $loop->index }})">
+                                            <td onclick="barang({{ $loop->index }})">
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text" readonly
-                                                        class="form-control kode_barang"
-                                                        id="kode_barang-{{ $loop->index }}" name="kode_barang[]"
-                                                        value="{{ $detail['kode_barang'] }}">
+                                                        class="form-control" id="kode_barang-{{ $loop->index }}"
+                                                        name="kode_barang[]" value="{{ $detail['kode_barang'] }}">
                                                 </div>
                                             </td>
-                                            <td onclick="barangModal({{ $loop->index }})">
+                                            <td onclick="barang({{ $loop->index }})">
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text" readonly
                                                         class="form-control" id="nama_barang-{{ $loop->index }}"
@@ -223,28 +220,25 @@
                                             <td>
                                                 <div class="form-group">
                                                     <input readonly style="font-size:14px" type="text"
-                                                        class="form-control harga" id="harga-{{ $loop->index }}"
-                                                        name="harga[]" data-row-id="{{ $loop->index }}"
+                                                        class="form-control harga" id="harga-0" name="harga[]"
+                                                        data-row-id="0"
                                                         value="{{ number_format($detail['harga'], 0, ',', '.') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="number"
-                                                        class="form-control jumlah" id="jumlah-{{ $loop->index }}"
-                                                        name="jumlah[]" data-row-id="{{ $loop->index }}"
-                                                        value="{{ $detail['jumlah'] }}">
+                                                        class="form-control jumlah" id="jumlah-0" name="jumlah[]"
+                                                        data-row-id="0" value="{{ $detail['jumlah'] }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="number"
-                                                        class="form-control diskon" id="diskon-{{ $loop->index }}"
-                                                        name="diskon[]" data-row-id="{{ $loop->index }}"
-                                                        value="{{ $detail['diskon'] }}">
+                                                        class="form-control diskon" id="diskon-0" name="diskon[]"
+                                                        data-row-id="0" value="{{ $detail['diskon'] }}">
                                                 </div>
                                             </td>
-
                                             <td style="width: 150px">
                                                 <div class="form-group">
                                                     <div class="form-group">
@@ -264,14 +258,14 @@
                                             <td>
                                                 <div class="form-group">
                                                     <input readonly style="font-size:14px" type="text"
-                                                        oninput="formatRupiahHtml(this)" class="form-control total"
+                                                        oninput="formatRupiah(this)" class="form-control total"
                                                         id="total-0" name="total[]" data-row-id="0"
                                                         value="{{ number_format($detail['total'], 0, ',', '.') }}">
                                                 </div>
                                             </td>
                                             <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="barangModal({{ $loop->index }})">
+                                                    onclick="barang({{ $loop->index }})">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                                 <button style="margin-left:5px" type="button"
@@ -320,73 +314,6 @@
                             </div>
 
                         </div>
-                        <div class="card">
-                            <div id="tableBarang" style="display: none;">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    {{-- <h4 class="card-title">Data Barang</h4> --}}
-                                                    <button type="button" class="close" onclick="closeTableBarang()">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="m-2">
-                                                        <input type="text" id="searchInput" class="form-control"
-                                                            placeholder="Search...">
-                                                    </div>
-                                                    <table id="tables" class="table table-bordered table-striped">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="text-center">No</th>
-                                                                <th hidden>QrCode Barang</th>
-                                                                <th>Kode Barang</th>
-                                                                <th>Nama barang</th>
-                                                                {{-- <th>Harga</th> --}}
-                                                                <th>Merek</th>
-                                                                <th>Opsi</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($barangs as $barang)
-                                                                <tr data-barang_id="{{ $barang->id }}"
-                                                                    data-qrcode_barang="{{ $barang->qrcode_barang }}"
-                                                                    data-kode_barang="{{ $barang->kode_barang }}"
-                                                                    data-nama_barang="{{ $barang->nama_barang }}"
-                                                                    data-harga_a="{{ $barang->harga->first()->harga_a ?? 0 }}"
-                                                                    data-harga_b="{{ $barang->harga->first()->harga_b ?? 0 }}"
-                                                                    data-harga_c="{{ $barang->harga->first()->harga_c ?? 0 }}"
-                                                                    data-harga_d="{{ $barang->harga->first()->harga_d ?? 0 }}"
-                                                                    data-harga_e="{{ $barang->harga->first()->harga_e ?? 0 }}"
-                                                                    data-param="{{ $loop->index }}"
-                                                                    onclick="getBarang({{ $loop->index }})">
-                                                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                                                    <td hidden>{{ $barang->qrcode_barang }}</td>
-                                                                    <td>{{ $barang->kode_barang }}</td>
-                                                                    <td>{{ $barang->nama_barang }}</td>
-                                                                    <td>{{ $barang->merek->nama_merek ?? null }}</td>
-                                                                    {{-- <td> {{ number_format($barang->harga, 0, ',', '.') }}</td> --}}
-                                                                    <td class="text-center">
-                                                                        <button type="button"
-                                                                            class="btn btn-primary btn-sm"
-                                                                            onclick="getBarang({{ $loop->index }})">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
                         <div class="card-footer text-right">
                             <button type="reset" class="btn btn-secondary">Reset</button>
                             <button type="submit" class="btn btn-primary">Simpan</button>
@@ -397,7 +324,7 @@
         </div>
 
 
-        <div class="modal fade" id="tableBarangModal" data-backdrop="static">
+        <div class="modal fade" id="tableBarang" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -408,9 +335,9 @@
                     </div>
                     <div class="modal-body">
                         <div class="m-2">
-                            <input type="text" id="searchInputModal" class="form-control" placeholder="Search...">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search...">
                         </div>
-                        <table id="tablesModal" class="table table-bordered table-striped">
+                        <table id="tables" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -433,7 +360,7 @@
                                         data-harga_c="{{ $barang->harga->first()->harga_c ?? 0 }}"
                                         data-harga_d="{{ $barang->harga->first()->harga_d ?? 0 }}"
                                         data-harga_e="{{ $barang->harga->first()->harga_e ?? 0 }}"
-                                        data-param="{{ $loop->index }}" onclick="getBarangModal({{ $loop->index }})">
+                                        data-param="{{ $loop->index }}" onclick="getBarang({{ $loop->index }})">
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td hidden>{{ $barang->qrcode_barang }}</td>
                                         <td>{{ $barang->kode_barang }}</td>
@@ -451,7 +378,7 @@
                                             {{ number_format($barang->harga->first()->harga_e ?? 0, 0, ',', '.') }}</td>
                                         <td>
                                             <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
-                                                onclick="getBarangModal({{ $loop->index }})">
+                                                onclick="getBarang({{ $loop->index }})">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </td>
@@ -464,10 +391,6 @@
             </div>
         </div>
     </section>
-
-    {{-- swetaalert --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
     <script>
         function showCategoryModalpelanggan(selectedCategory) {
@@ -508,16 +431,16 @@
     </script>
 
     <script>
-        var activeSpecificationIndexModal = 0;
+        var activeSpecificationIndex = 0;
 
-        function barangModal(param) {
-            activeSpecificationIndexModal = param;
+        function barang(param) {
+            activeSpecificationIndex = param;
             // Show the modal and filter rows if necessary
-            $('#tableBarangModal').modal('show');
+            $('#tableBarang').modal('show');
         }
 
-        function getBarangModal(rowIndex) {
-            var selectedRow = $('#tablesModal tbody tr:eq(' + rowIndex + ')');
+        function getBarang(rowIndex) {
+            var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
             var golongan = $('#golongan').val(); // Ambil golongan dari input
 
             // Ambil data umum
@@ -555,28 +478,28 @@
             }
 
             // Update form input
-            $('#barang_id-' + activeSpecificationIndexModal).val(barang_id);
-            $('#qrcode_barang-' + activeSpecificationIndexModal).val(qrcode_barang);
-            $('#kode_barang-' + activeSpecificationIndexModal).val(kode_barang);
-            $('#nama_barang-' + activeSpecificationIndexModal).val(nama_barang);
-            $('#harga-' + activeSpecificationIndexModal).val(formatRupiahModal(harga));
-            $('#diskon-' + activeSpecificationIndexModal).val(0); // ✅ Diskon default 0
+            $('#barang_id-' + activeSpecificationIndex).val(barang_id);
+            $('#qrcode_barang-' + activeSpecificationIndex).val(qrcode_barang);
+            $('#kode_barang-' + activeSpecificationIndex).val(kode_barang);
+            $('#nama_barang-' + activeSpecificationIndex).val(nama_barang);
+            $('#harga-' + activeSpecificationIndex).val(formatRupiahModal(harga));
+            $('#diskon-' + activeSpecificationIndex).val(0); // ✅ Diskon default 0
 
             // Ambil jumlah dan hitung total
-            var jumlah = parseFloat($('#jumlah-' + activeSpecificationIndexModal).val()) || 0;
+            var jumlah = parseFloat($('#jumlah-' + activeSpecificationIndex).val()) || 0;
             var total = harga * jumlah;
-            $('#total-' + activeSpecificationIndexModal).val(formatRupiahModal(total));
+            $('#total-' + activeSpecificationIndex).val(formatRupiahModal(total));
 
             grandTotal();
-            $('#tableBarangModal').modal('hide');
+            $('#tableBarang').modal('hide');
         }
 
         // Function to filter the table rows based on the search input
-        function filterTableModal() {
+        function filterTable() {
             var input, filter, table, tr, td, i, j, txtValue;
-            input = document.getElementById("searchInputModal");
+            input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
-            table = document.getElementById("tablesModal");
+            table = document.getElementById("tables");
             tr = table.getElementsByTagName("tr");
 
             for (i = 0; i < tr.length; i++) {
@@ -598,7 +521,7 @@
                 tr[i].style.display = displayRow ? "" : "none";
             }
         }
-        document.getElementById("searchInputModal").addEventListener("input", filterTableModal);
+        document.getElementById("searchInput").addEventListener("input", filterTable);
 
         function updateHargaTabel(golonganId) {
             // Cek apakah golonganId valid
@@ -607,7 +530,7 @@
                 return; // Tidak lakukan apa-apa jika golongan tidak valid
             }
 
-            $('#tablesModal tbody tr').each(function() {
+            $('#tables tbody tr').each(function() {
                 var row = $(this);
 
                 // Menyembunyikan semua kolom harga terlebih dahulu
@@ -680,7 +603,7 @@
 
         if (data_pembelian != null) {
             jumlah_ban = data_pembelian.length;
-            $('#tabel-pembelian').empty();
+            $('#tabel-penjualan').empty();
             var urutan = 0;
             $.each(data_pembelian, function(key, value) {
                 urutan = urutan + 1;
@@ -702,10 +625,10 @@
             jumlah_ban = jumlah_ban + 1;
 
             if (jumlah_ban === 1) {
-                $('#tabel-pembelian').empty();
+                $('#tabel-penjualan').empty();
             } else {
                 // Find the last row and get its index to continue the numbering
-                var lastRow = $('#tabel-pembelian tr:last');
+                var lastRow = $('#tabel-penjualan tr:last');
                 var lastRowIndex = lastRow.find('#urutan').text();
                 jumlah_ban = parseInt(lastRowIndex) + 1;
             }
@@ -716,7 +639,7 @@
         }
 
         function removePesanan(identifier) {
-            var row = $('#pembelian-' + identifier);
+            var row = $('#penjualan-' + identifier);
             var detailId = row.find("input[name='detail_ids[]']").val();
 
             row.remove();
@@ -765,7 +688,7 @@
             }
 
             // urutan 
-            var item_pembelian = '<tr id="pembelian-' + key + '">';
+            var item_pembelian = '<tr id="penjualan-' + key + '">';
             item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan">' + key + '</td>';
 
             // barang_id 
@@ -778,29 +701,27 @@
             item_pembelian += '</td>';
 
             // qrcode_barang 
-            item_pembelian += '<td hidden onclick="barangModal(' + key +
+            item_pembelian += '<td hidden onclick="barang(' + key +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control qrcode_barang" readonly style="font-size:14px" id="qrcode_barang-' +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="qrcode_barang-' +
                 key +
                 '" name="qrcode_barang[]" value="' + qrcode_barang + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // kode_barang 
-            item_pembelian += '<td onclick="barangModal(' + key +
+            item_pembelian += '<td onclick="barang(' + key +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control kode_barang" readonly style="font-size:14px" id="kode_barang-' +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_barang-' +
                 key +
                 '" name="kode_barang[]" value="' + kode_barang + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // nama_barang 
-            item_pembelian += '<td onclick="barangModal(' + key +
+            item_pembelian += '<td onclick="barang(' + key +
                 ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="nama_barang-' +
@@ -862,7 +783,7 @@
 
 
             item_pembelian += '<td style="width: 100px">';
-            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="barangModal(' + key +
+            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="barang(' + key +
                 ')">';
             item_pembelian += '<i class="fas fa-plus"></i>';
             item_pembelian += '</button>';
@@ -874,7 +795,7 @@
             item_pembelian += '</td>';
             item_pembelian += '</tr>';
 
-            $('#tabel-pembelian').append(item_pembelian);
+            $('#tabel-penjualan').append(item_pembelian);
 
             if (value !== null) {
                 $('#satuan_id-' + key).val(value.satuan_id);
@@ -926,329 +847,21 @@
             grandTotal();
         });
 
-        function formatRupiahsss(angka) {
-            if (!angka) return '0';
-            angka = parseFloat(angka.toString().replace(/\D/g, '')) || 0;
-            return new Intl.NumberFormat('id-ID').format(angka);
+        function formatRupiahsss(number) {
+            var formatted = new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(number);
+            return '' + formatted;
         }
     </script>
 
     <script>
-        function formatRupiahHtml(el) {
+        function formatRupiah(el) {
             let value = el.value.replace(/\D/g, ''); // hapus semua karakter non-digit
             value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // tambahkan titik pemisah ribuan
             el.value = value;
         }
     </script>
-
-
-    {{-- validasi kosong  --}}
-    <script>
-        $(document).ready(function() {
-            $('form').on('submit', function(e) {
-                var pelangganName = $('#kode_pelanggan').val().trim();
-                var barangValid = true;
-                var nominalValid = true;
-
-                // Validasi pelanggan
-                if (pelangganName === "") {
-                    e.preventDefault();
-                    $('#error-pelanggan').text('Pilih Pelanggan.');
-                    $('#kode_pelanggan').addClass('is-invalid');
-                } else {
-                    $('#error-pelanggan').text('');
-                    $('#kode_pelanggan').removeClass('is-invalid');
-                }
-
-                // Validasi data barang (loop tiap baris untuk nama barang)
-                $('input[name^="barang"]').each(function() {
-                    var val = $(this).val().trim();
-                    if (val === "") {
-                        barangValid = false;
-                        $(this).addClass('is-invalid');
-                    } else {
-                        $(this).removeClass('is-invalid');
-                    }
-                });
-
-                // Validasi untuk kode_barang
-                $('input[name^="kode_barang"]').each(function() {
-                    var val = $(this).val().trim();
-                    if (val === "") {
-                        barangValid = false;
-                        $(this).addClass('is-invalid');
-                    } else {
-                        $(this).removeClass('is-invalid');
-                    }
-                });
-
-                // Validasi untuk jumlah barang
-                $('input[name^="jumlah"]').each(function() {
-                    var val = $(this).val().trim();
-                    if (val === "") {
-                        barangValid = false;
-                        $(this).addClass('is-invalid');
-                    } else {
-                        $(this).removeClass('is-invalid');
-                    }
-                });
-
-                // Validasi untuk satuan_id (select)
-                $('select[name^="satuan_id"]').each(function() {
-                    var val = $(this).val().trim();
-                    if (val === "") {
-                        barangValid = false;
-                        $(this).addClass('is-invalid');
-                    } else {
-                        $(this).removeClass('is-invalid');
-                    }
-                });
-
-                // Validasi kategori
-                var Kategori = $('#kategori').val().trim();
-                if (Kategori === "") {
-                    e.preventDefault();
-                    KategoriValid = false;
-                    $('#error-kategori').text('Pilih Kategori.');
-                    $('#kategori').addClass('is-invalid');
-                } else {
-                    $('#error-kategori').text('');
-                    $('#kategori').removeClass('is-invalid');
-                }
-
-
-                // Jika barang tidak valid, munculkan alert barang
-                if (!barangValid) {
-                    e.preventDefault();
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Data Barang Tidak Lengkap',
-                        text: 'Mohon lengkapi semua data barang sebelum menyimpan!',
-                        confirmButtonText: 'OK'
-                    });
-                }
-
-                // Jika semua valid, baru sembunyikan tombol & tampilkan loading
-                if (pelangganName !== "" && barangValid && KategoriValid) {
-                    // Menyembunyikan tombol Simpan dan Reset, serta menampilkan loading
-                    $('#btnSimpan').hide();
-                    $('#btnReset').hide();
-                    $('#loading').show();
-                } else {
-                    // Jangan tampilkan loading dan sembunyikan tombol jika ada yang tidak valid
-                    $('#btnSimpan').show();
-                    $('#btnReset').show();
-                    $('#loading').hide();
-                }
-            });
-        });
-    </script>
-
-    {{-- akhir validasi kosong  --}}
-
-    {{-- scan  --}}
-    <script>
-        var currentRowIndex = null;
-
-        function handleScan() {
-            var pelangganId = $('#pelanggan_id').val();
-            if (!pelangganId) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Pilih Pelanggan',
-                    text: 'Silakan pilih pelanggan terlebih dahulu sebelum melakukan scan.',
-                });
-
-                $('#scanInput').val(''); // Kosongkan input scan
-                return; // Stop proses jika pelanggan belum dipilih
-            }
-            var scanValue = $('#scanInput').val();
-
-            if (scanValue) {
-                function formatAngkarupe(angka) {
-                    return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                }
-
-                var found = false;
-                // Lanjutkan proses scan seperti biasa
-                $('.kode_barang').each(function(index) {
-                    if ($(this).val().toUpperCase() === scanValue.toUpperCase()) {
-                        var rowIndex = $(this).attr('id').split('-')[1];
-                        var jumlahInput = $('#jumlah-' + rowIndex);
-                        var jumlah = parseInt(jumlahInput.val()) || 0;
-                        jumlahInput.val(jumlah + 1);
-
-                        var harga = parseFloat($('#harga-' + rowIndex).val().replace(/\./g, '')) || 0;
-
-                        // Ambil nilai diskon, default ke 0 jika kosong
-                        var diskon = parseFloat($('#diskon-' + rowIndex).val().replace(/\./g, '')) || 0;
-
-                        // Hitung total = (harga * jumlah) - diskon
-                        var total = ((jumlah + 1) * harga) - diskon;
-                        if (total < 0) total = 0; // Total tidak boleh minus
-
-                        $('#total-' + rowIndex).val(formatAngkarupe(total)); // Format hasil total
-                        grandTotal();
-
-                        found = true;
-                        $('#scanInput').val('');
-                        return false;
-                    }
-                });
-
-                if (!found) {
-                    addPesanan();
-                    currentRowIndex = jumlah_ban - 1; // kurangi 1 karena jumlah_ban sudah di-increment di addPesanan()
-
-                    $('#searchInput').val(scanValue);
-                    filterTable();
-
-                    $('#tableBarang').show();
-
-                    setTimeout(function() {
-                        var visibleRows = $('#tables tbody tr:visible');
-
-                        if (visibleRows.length === 1) {
-                            visibleRows.find('button').trigger('click');
-                            $('#scanInput').val('');
-                        } else {
-                            // Cek jika kode_barang di baris currentRowIndex kosong setelah pencarian
-                            var kodeBarangInput = $('#kode_barang-' + currentRowIndex);
-                            if (kodeBarangInput.val().trim() === '') {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Barang Tidak Ditemukan',
-                                    text: 'Barang yang anda cari tidak ada dalam tabel.',
-                                    timer: 1500,
-                                    showConfirmButton: false
-                                });
-
-                                removePesanan(currentRowIndex); // Hapus baris jika kosong
-                            }
-                        }
-                        $('#scanInput').val(''); // Kosongkan input scan
-                    }, 300);
-                }
-
-            }
-        }
-
-        // Fungsi untuk memfilter tabel berdasarkan input pencarian
-        function filterTable() {
-            var input = document.getElementById("searchInput");
-            var filter = input.value.toUpperCase();
-            var table = document.getElementById("tables");
-            var tr = table.getElementsByTagName("tr");
-
-            for (var i = 0; i < tr.length; i++) {
-                var displayRow = false;
-
-                for (var j = 1; j <= 3; j++) {
-                    var td = tr[i].getElementsByTagName("td")[j];
-                    if (td) {
-                        var txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            displayRow = true;
-                            break;
-                        }
-                    }
-                }
-
-                tr[i].style.display = displayRow ? "" : "none";
-            }
-        }
-
-        var activeSpecificationIndex = 0;
-
-        function barang(param) {
-            var pelangganId = $('#pelanggan_id').val();
-
-            if (!pelangganId) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Pilih Pelanggan',
-                    text: 'Silakan pilih pelanggan terlebih dahulu sebelum memilih barang.',
-                });
-                return;
-            }
-
-            activeSpecificationIndex = param;
-            $('#tableBarang').show(); // Tampilkan div tableBarang
-        }
-
-        // Fungsi untuk memilih barang dari table
-        function getBarang(index) {
-            var row = $('#tables tbody tr').eq(index);
-            var barang_id = row.data('barang_id');
-            var qrcode_barang = row.data('qrcode_barang');
-            var kode_barang = row.data('kode_barang');
-            var nama_barang = row.data('nama_barang');
-
-            // Ambil semua harga A-E dari data attribute
-            var harga_a = parseFloat(row.data('harga_a')) || 0;
-            var harga_b = parseFloat(row.data('harga_b')) || 0;
-            var harga_c = parseFloat(row.data('harga_c')) || 0;
-            var harga_d = parseFloat(row.data('harga_d')) || 0;
-            var harga_e = parseFloat(row.data('harga_e')) || 0;
-
-            // Ambil nilai golongan dari input
-            var golongan = $('#golongan').val().trim().toUpperCase();
-
-            // Tentukan harga berdasarkan golongan
-            var harga = 0;
-            switch (golongan) {
-                case 'A':
-                    harga = harga_a;
-                    break;
-                case 'B':
-                    harga = harga_b;
-                    break;
-                case 'C':
-                    harga = harga_c;
-                    break;
-                case 'D':
-                    harga = harga_d;
-                    break;
-                case 'E':
-                    harga = harga_e;
-                    break;
-                default:
-                    harga = 0;
-            }
-
-            function formatAngka(angka) {
-                return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            }
-
-            if (currentRowIndex !== null) {
-                $('#barang_id-' + currentRowIndex).val(barang_id);
-                $('#qrcode_barang-' + currentRowIndex).val(qrcode_barang);
-                $('#kode_barang-' + currentRowIndex).val(kode_barang);
-                $('#nama_barang-' + currentRowIndex).val(nama_barang);
-                $('#harga-' + currentRowIndex).val(formatAngka(harga));
-                $('#jumlah-' + currentRowIndex).val(1);
-                $('#diskon-' + currentRowIndex).val(0); // ✅ Diskon default 0
-
-                var total = harga * 1;
-                $('#total-' + currentRowIndex).val(formatAngka(total));
-
-                grandTotal();
-                closeTableBarang();
-            }
-
-            currentRowIndex = null;
-        }
-
-
-        // Fungsi untuk menutup tableBarang
-        function closeTableBarang() {
-            $('#tableBarang').hide(); // Menyembunyikan div tableBarang
-        }
-
-        // Event listener untuk filter saat ketik di input pencarian
-        document.getElementById("searchInput").addEventListener("input", filterTable);
-    </script>
-    {{-- akhir scan  --}}
-
 
 @endsection

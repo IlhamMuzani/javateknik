@@ -87,9 +87,9 @@
 </li>
 
 <li
-    class="nav-item {{ request()->is('admin/pembelian*') || request()->is('admin/po-pembelian*') || request()->is('admin/pelunasan-pembelian*') ? 'menu-open' : '' }}">
+    class="nav-item {{ request()->is('admin/pembelian*') || request()->is('admin/po-pembelian*') || request()->is('admin/pelunasan-pembelian*') || request()->is('admin/penjualan*') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ request()->is('admin/pembelian*') || request()->is('admin/po-pembelian*') || request()->is('admin/pelunasan-pembelian*') ? 'active' : '' }}">
+        class="nav-link {{ request()->is('admin/pembelian*') || request()->is('admin/po-pembelian*') || request()->is('admin/pelunasan-pembelian*') || request()->is('admin/penjualan*') ? 'active' : '' }}">
 
         <i class="nav-icon fas fa-exchange-alt"></i>
         <p>
@@ -115,9 +115,9 @@
 </li>
 
 <li
-    class="nav-item {{ request()->is('admin/inquery-popembelian*') || request()->is('admin/inquery-pembelian*') || request()->is('admin/inquery-pelunasan-pembelian*') ? 'menu-open' : '' }}">
+    class="nav-item {{ request()->is('admin/inquery-popembelian*') || request()->is('admin/inquery-pembelian*') || request()->is('admin/inquery-pelunasan-pembelian*') || request()->is('admin/inquery-penjualan*') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ request()->is('admin/inquery-popembelian*') || request()->is('admin/inquery-pembelian*') || request()->is('admin/inquery-pelunasan-pembelian*') ? 'active' : '' }}">
+        class="nav-link {{ request()->is('admin/inquery-popembelian*') || request()->is('admin/inquery-pembelian*') || request()->is('admin/inquery-pelunasan-pembelian*') || request()->is('admin/inquery-penjualan*') ? 'active' : '' }}">
 
         <i class="nav-icon fas fa-exchange-alt"></i>
         <p>
@@ -142,9 +142,9 @@
 </li>
 
 <li
-    class="nav-item {{ request()->is('admin/laporan-popembelian*') || request()->is('admin/laporan-pembelian*') || request()->is('admin/laporan-pelunasan-pembelian*') ? 'menu-open' : '' }}">
+    class="nav-item {{ request()->is('admin/laporan-popembelian*') || request()->is('admin/laporan-pembelian*') || request()->is('admin/laporan-pelunasan-pembelian*') || request()->is('admin/laporan-penjualan*') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ request()->is('admin/laporan-popembelian*') || request()->is('admin/laporan-pembelian*') || request()->is('admin/laporan-pelunasan-pembelian*') ? 'active' : '' }}">
+        class="nav-link {{ request()->is('admin/laporan-popembelian*') || request()->is('admin/laporan-pembelian*') || request()->is('admin/laporan-pelunasan-pembelian*') || request()->is('admin/laporan-penjualan*') ? 'active' : '' }}">
 
         <i class="nav-icon fas fa-clipboard-list"></i>
         <p>

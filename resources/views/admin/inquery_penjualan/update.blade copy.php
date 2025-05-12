@@ -49,7 +49,7 @@
                     @endif
                 </div>
             @endif
-            <form action="{{ url('admin/inquery-penjualan/' . $inquery->id) }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ url('admin/inquery-pembelian/' . $inquery->id) }}" method="POST" enctype="multipart/form-data"
                 autocomplete="off">
                 @csrf
                 @method('put')
@@ -200,17 +200,15 @@
                                             <td hidden onclick="barangModal({{ $loop->index }})">
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text" readonly
-                                                        class="form-control qrcode_barang"
-                                                        id="qrcode_barang-{{ $loop->index }}" name="qrcode_barang[]"
-                                                        value="{{ $detail['qrcode_barang'] }}">
+                                                        class="form-control" id="qrcode_barang-{{ $loop->index }}"
+                                                        name="qrcode_barang[]" value="{{ $detail['qrcode_barang'] }}">
                                                 </div>
                                             </td>
                                             <td onclick="barangModal({{ $loop->index }})">
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text" readonly
-                                                        class="form-control kode_barang"
-                                                        id="kode_barang-{{ $loop->index }}" name="kode_barang[]"
-                                                        value="{{ $detail['kode_barang'] }}">
+                                                        class="form-control" id="kode_barang-{{ $loop->index }}"
+                                                        name="kode_barang[]" value="{{ $detail['kode_barang'] }}">
                                                 </div>
                                             </td>
                                             <td onclick="barangModal({{ $loop->index }})">
@@ -223,28 +221,25 @@
                                             <td>
                                                 <div class="form-group">
                                                     <input readonly style="font-size:14px" type="text"
-                                                        class="form-control harga" id="harga-{{ $loop->index }}"
-                                                        name="harga[]" data-row-id="{{ $loop->index }}"
+                                                        class="form-control harga" id="harga-0" name="harga[]"
+                                                        data-row-id="0"
                                                         value="{{ number_format($detail['harga'], 0, ',', '.') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="number"
-                                                        class="form-control jumlah" id="jumlah-{{ $loop->index }}"
-                                                        name="jumlah[]" data-row-id="{{ $loop->index }}"
-                                                        value="{{ $detail['jumlah'] }}">
+                                                        class="form-control jumlah" id="jumlah-0" name="jumlah[]"
+                                                        data-row-id="0" value="{{ $detail['jumlah'] }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="number"
-                                                        class="form-control diskon" id="diskon-{{ $loop->index }}"
-                                                        name="diskon[]" data-row-id="{{ $loop->index }}"
-                                                        value="{{ $detail['diskon'] }}">
+                                                        class="form-control diskon" id="diskon-0" name="diskon[]"
+                                                        data-row-id="0" value="{{ $detail['diskon'] }}">
                                                 </div>
                                             </td>
-
                                             <td style="width: 150px">
                                                 <div class="form-group">
                                                     <div class="form-group">
@@ -465,9 +460,8 @@
         </div>
     </section>
 
-    {{-- swetaalert --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+        {{-- swetaalert --}}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         function showCategoryModalpelanggan(selectedCategory) {
@@ -781,8 +775,7 @@
             item_pembelian += '<td hidden onclick="barangModal(' + key +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control qrcode_barang" readonly style="font-size:14px" id="qrcode_barang-' +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="qrcode_barang-' +
                 key +
                 '" name="qrcode_barang[]" value="' + qrcode_barang + '" ';
             item_pembelian += '</div>';
@@ -792,8 +785,7 @@
             item_pembelian += '<td onclick="barangModal(' + key +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control kode_barang" readonly style="font-size:14px" id="kode_barang-' +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_barang-' +
                 key +
                 '" name="kode_barang[]" value="' + kode_barang + '" ';
             item_pembelian += '</div>';
@@ -1098,7 +1090,7 @@
 
                 if (!found) {
                     addPesanan();
-                    currentRowIndex = jumlah_ban - 1; // kurangi 1 karena jumlah_ban sudah di-increment di addPesanan()
+                    currentRowIndex = jumlah_ban;
 
                     $('#searchInput').val(scanValue);
                     filterTable();
@@ -1132,6 +1124,8 @@
 
             }
         }
+
+
 
         // Fungsi untuk memfilter tabel berdasarkan input pencarian
         function filterTable() {
