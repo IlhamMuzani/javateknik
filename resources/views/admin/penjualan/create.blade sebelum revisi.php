@@ -165,11 +165,11 @@
                     <div class="card-header">
                         <h3 class="card-title">Tambah Barang</h3>
                         <div class="float-right">
-                            <button type="button" class="btn btn-primary btn-sm" id="" onclick="addPesanan()">
+                            <button type="button" class="btn btn-primary btn-sm" id="addPesananBtn"
+                                onclick="addPesanan()">
                                 <i class="fas fa-plus">Tambah</i>
                             </button>
-                            <input type="text" id="scanInput" placeholder="Scan barcode di sini"
-                                style="opacity: 0; position: absolute; left: -9999px;">
+                            <input type="text" id="scanInput" placeholder="Scan Barcode" oninput="handleScan()">
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -696,7 +696,7 @@
     {{-- addPesanan  --}}
     <script>
         var data_pembelian = @json(session('data_pembelians'));
-        var jumlah_ban = 0;
+        var jumlah_ban = 1;
 
         if (data_pembelian != null) {
             jumlah_ban = data_pembelian.length;
@@ -914,14 +914,14 @@
         });
     </script>
     {{-- akhir addPesanan  --}}
-    {{-- <script>
+    <script>
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
                 document.getElementById('addPesananBtn').click();
             }
         });
-    </script> --}}
+    </script>
 
     <script>
         // Event listener untuk input harga dan jumlah
@@ -1122,55 +1122,10 @@
     {{-- akhir validasi kosong  --}}
 
     {{-- scan  --}}
-
-    {{-- auto fokus  --}}
     <script>
-        window.addEventListener("load", () => {
-            document.getElementById("scanInput").focus();
-        });
-
-        // Hanya fokus ke scanInput jika tidak sedang di inputan lain
-        document.addEventListener("click", (e) => {
-            const activeTag = document.activeElement.tagName.toLowerCase();
-            if (activeTag !== 'input' && activeTag !== 'select' && activeTag !== 'textarea') {
-                document.getElementById("scanInput").focus();
-            }
-        });
-
-        // Setelah memilih kategori, kembalikan fokus ke scanInput
-        document.getElementById("kategori").addEventListener("change", () => {
-            document.getElementById("scanInput").focus();
-        });
-
-        // Tangani hasil scan saat Enter ditekan
-        document.getElementById("scanInput").addEventListener("keydown", function(e) {
-            if (e.key === "Enter") {
-                handleScan(e);
-            }
-        });
-
-        function handleScan(event) {
-            const scannedValue = event.target.value.trim();
-            console.log("Hasil scan:", scannedValue);
-
-            // Kosongkan & fokus ulang ke scanInput
-            event.target.value = "";
-            event.target.focus();
-        }
-    </script>
-
-
-    <script>
-        // document.getElementById("scanInput").addEventListener("keydown", handleScan);
-
         var currentRowIndex = null;
 
-        function handleScan(event) {
-            if (event.key !== 'Enter') {
-                return;
-            }
-            event.preventDefault(); // ✅ Cegah submit form saat tekan Enter
-
+        function handleScan() {
             var pelangganId = $('#pelanggan_id').val();
             if (!pelangganId) {
                 Swal.fire({
@@ -1178,18 +1133,11 @@
                     title: 'Pilih Pelanggan',
                     text: 'Silakan pilih pelanggan terlebih dahulu sebelum melakukan scan.',
                 });
-                $('#scanInput').val('');
-                return;
+
+                $('#scanInput').val(''); // Kosongkan input scan
+                return; // Stop proses jika pelanggan belum dipilih
             }
-
-            var scanValue = $('#scanInput').val().trim();
-            if (!scanValue) return;
-
-            // console.log('Mulai handleScan untuk:', scanValue);
-
-            function formatAngkarupe(angka) {
-                return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            }
+            var scanValue = $('#scanInput').val();
 
             if (scanValue) {
                 function formatAngkarupe(angka) {
@@ -1197,7 +1145,8 @@
                 }
 
                 var found = false;
-                $('.kode_barang').each(function() {
+                // Lanjutkan proses scan seperti biasa
+                $('.kode_barang').each(function(index) {
                     if ($(this).val().toUpperCase() === scanValue.toUpperCase()) {
                         var rowIndex = $(this).attr('id').split('-')[1];
                         var jumlahInput = $('#jumlah-' + rowIndex);
@@ -1205,26 +1154,25 @@
                         jumlahInput.val(jumlah + 1);
 
                         var harga = parseFloat($('#harga-' + rowIndex).val().replace(/\./g, '')) || 0;
+
+                        // Ambil nilai diskon, default ke 0 jika kosong
                         var diskon = parseFloat($('#diskon-' + rowIndex).val().replace(/\./g, '')) || 0;
 
+                        // Hitung total = (harga * jumlah) - diskon
                         var total = ((jumlah + 1) * harga) - diskon;
-                        if (total < 0) total = 0;
+                        if (total < 0) total = 0; // Total tidak boleh minus
 
-                        $('#total-' + rowIndex).val(formatAngkarupe(total));
+                        $('#total-' + rowIndex).val(formatAngkarupe(total)); // Format hasil total
                         grandTotal();
 
                         found = true;
-                        console.log('Barang ditemukan di row:', rowIndex);
                         $('#scanInput').val('');
-                        return false; // break each loop
+                        return false;
                     }
                 });
 
                 if (!found) {
-                    // console.log('Barang tidak ditemukan, jalankan addPesanan()');
                     addPesanan();
-                    // console.log('addPesanan() 2');
-
                     currentRowIndex = jumlah_ban;
 
                     $('#searchInput').val(scanValue);
@@ -1236,10 +1184,10 @@
                         var visibleRows = $('#tables tbody tr:visible');
 
                         if (visibleRows.length === 1) {
-                            console.log('Auto klik row hasil filter');
                             visibleRows.find('button').trigger('click');
                             $('#scanInput').val('');
                         } else {
+                            // Cek jika kode_barang di baris currentRowIndex kosong setelah pencarian
                             var kodeBarangInput = $('#kode_barang-' + currentRowIndex);
                             if (kodeBarangInput.val().trim() === '') {
                                 Swal.fire({
@@ -1250,16 +1198,17 @@
                                     showConfirmButton: false
                                 });
 
-                                console.log('Barang kosong, hapus row', currentRowIndex);
-                                removeBan(currentRowIndex);
+                                removeBan(currentRowIndex); // Hapus baris jika kosong
                                 closeTableBarang();
                             }
                         }
-                        $('#scanInput').val('');
+                        $('#scanInput').val(''); // Kosongkan input scan
                     }, 300);
                 }
+
             }
         }
+
 
 
         // Fungsi untuk memfilter tabel berdasarkan input pencarian

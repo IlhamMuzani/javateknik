@@ -89,7 +89,7 @@
                         class="brand-text font-wight-bold">{{ implode(' ', array_slice(str_word_count(auth()->user()->pelanggan->nama_pelanggan, 1), 0, 2)) }}</span>
                 @endif
             </a>
-            <div class="sidebar">
+            <div class="sidebar" style="height: calc(100vh - 70px); overflow-y: auto; overflow-x: hidden;">
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"

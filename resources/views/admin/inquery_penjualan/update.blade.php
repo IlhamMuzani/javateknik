@@ -157,7 +157,8 @@
                                 <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
                                     <i class="fas fa-plus"></i>
                                 </button>
-                                <input type="text" id="scanInput" placeholder="Scan Barcode" oninput="handleScan()">
+                                <input type="text" id="scanInput" placeholder="Scan Barcode"
+                                    style="opacity: 0; position: absolute; left: -9999px;">
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -1043,14 +1044,55 @@
             });
         });
     </script>
-
     {{-- akhir validasi kosong  --}}
+
+
+    <script>
+        window.addEventListener("load", () => {
+            document.getElementById("scanInput").focus();
+        });
+
+        // Hanya fokus ke scanInput jika tidak sedang di inputan lain
+        document.addEventListener("click", (e) => {
+            const activeTag = document.activeElement.tagName.toLowerCase();
+            if (activeTag !== 'input' && activeTag !== 'select' && activeTag !== 'textarea') {
+                document.getElementById("scanInput").focus();
+            }
+        });
+
+        // Setelah memilih kategori, kembalikan fokus ke scanInput
+        document.getElementById("kategori").addEventListener("change", () => {
+            document.getElementById("scanInput").focus();
+        });
+
+        // Tangani hasil scan saat Enter ditekan
+        document.getElementById("scanInput").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                handleScan(e);
+            }
+        });
+
+        function handleScan(event) {
+            const scannedValue = event.target.value.trim();
+            console.log("Hasil scan:", scannedValue);
+
+            // Kosongkan & fokus ulang ke scanInput
+            event.target.value = "";
+            event.target.focus();
+        }
+    </script>
+
 
     {{-- scan  --}}
     <script>
         var currentRowIndex = null;
 
         function handleScan() {
+            if (event.key !== 'Enter') {
+                return;
+            }
+            event.preventDefault(); // ✅ Cegah submit form saat tekan Enter
+
             var pelangganId = $('#pelanggan_id').val();
             if (!pelangganId) {
                 Swal.fire({
@@ -1058,11 +1100,12 @@
                     title: 'Pilih Pelanggan',
                     text: 'Silakan pilih pelanggan terlebih dahulu sebelum melakukan scan.',
                 });
-
-                $('#scanInput').val(''); // Kosongkan input scan
-                return; // Stop proses jika pelanggan belum dipilih
+                $('#scanInput').val('');
+                return;
             }
-            var scanValue = $('#scanInput').val();
+
+            var scanValue = $('#scanInput').val().trim();
+            if (!scanValue) return;
 
             if (scanValue) {
                 function formatAngkarupe(angka) {

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Penjualan')
+@section('title', 'Pelunasan Penjualan')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -19,8 +19,18 @@
 
     <!-- Content Header (Page header) -->
     <div class="content-header" style="display: none;" id="mainContent">
-        <div class="container-fluid">
-        </div><!-- /.container-fluid -->
+        {{-- <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 30px;" class="m-0">Pelunasan Penjualan</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li  class="breadcrumb-item active">Pelunasan Penjualan</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid --> --}}
     </div>
     <!-- /.content-header -->
 
@@ -47,10 +57,10 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Penjualan</h3>
+                    <h3 class="card-title">Data Pelunasan Penjualan</h3>
                     <div class="float-right">
-                        @if (auth()->user()->menufiturs()->where('nama', 'Penjualan')->wherePivot('can_create', 1)->exists())
-                            <a href="{{ url('admin/penjualan/create') }}" class="btn btn-primary btn-sm">
+                        @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Penjualan')->wherePivot('can_create', 1)->exists())
+                            <a href="{{ url('admin/pelunasan-penjualan/create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
                         @endif
@@ -58,93 +68,88 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <div class="table-responsive" style="overflow-x: auto;">
-                        <table id="datatables66" class="table table-bordered table-striped table-hover"
-                            style="font-size: 13px">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                    <th class="text-center">No</th>
-                                    <th>No. Penjualan</th>
-                                    <th>Tanggal</th>
-                                    <th>Nama Pelanggan</th>
-                                    <th>Total</th>
-                                    <th class="text-center" width="40">Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($inquery as $item)
-                                    <tr class="dropdown"{{ $item->id }}>
-                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                                value="{{ $item->id }}">
-                                        </td>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $item->kode_penjualan }}</td>
-                                        <td>{{ $item->tanggal_awal }}</td>
-                                        <td>
-                                            @if ($item->pelanggan)
-                                                {{ $item->pelanggan->nama_pelanggan }}
-                                            @else
-                                                tidak ada
-                                            @endif
-                                        </td>
-                                        <td>{{ number_format($item->grand_total, 2, ',', '.') }}</td>
-                                        <td class="text-center">
-                                            @if ($item->status == 'posting')
-                                                <button type="button" class="btn btn-success btn-sm">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            @endif
-                                            @if ($item->status == 'selesai')
-                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
-                                                    height="40" width="40" alt="document">
-                                            @endif
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                @if ($item->status == 'unpost')
-                                                    @if (auth()->user()->menufiturs()->where('nama', 'Penjualan')->wherePivot('can_posting', 1)->exists())
-                                                        <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $item->id }}">Posting</a>
-                                                    @endif
-                                                    @if (auth()->user()->menufiturs()->where('nama', 'Penjualan')->wherePivot('can_update', 1)->exists())
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery-penjualan/' . $item->id . '/edit') }}">Update</a>
-                                                    @endif
-                                                    @if (auth()->user()->menufiturs()->where('nama', 'Penjualan')->wherePivot('can_show', 1)->exists())
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/penjualan/' . $item->id) }}">Show</a>
-                                                    @endif
-                                                    @if (auth()->user()->menufiturs()->where('nama', 'Penjualan')->wherePivot('can_delete', 1)->exists())
-                                                        <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapuspenjualan', ['id' => $item->id]) }}">
-                                                            <button type="submit"
-                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                                </i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th>No </th>
+                                <th>Tanggal</th>
+                                <th>Admin</th>
+                                <th>Pelanggan</th>
+                                {{-- <th>PPH</th> --}}
+                                <th style="text-align: end">Total</th>
+                                <th style="width: 20px; text-align:center">Opsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($inquery as $fakturpelunasan)
+                                <tr class="dropdown"{{ $fakturpelunasan->id }}>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>{{ $fakturpelunasan->kode_pelunasan }}</td>
+                                    <td>{{ $fakturpelunasan->tanggal_awal }}</td>
+                                    <td>
+                                        {{ $fakturpelunasan->user->karyawan->nama_lengkap ?? null }}
+                                    </td>
+                                    <td>
+                                        {{ $fakturpelunasan->nama_pelanggan }}
+                                    </td>
+                                    {{-- <td style="text-align: end">
+                                        {{ number_format($fakturpelunasan->pph, 0, ',', '.') }}
+                                    </td> --}}
+                                    <td style="text-align: end">
+                                        {{ number_format($fakturpelunasan->totalpembayaran, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-center">
+                                        @if ($fakturpelunasan->status == 'posting')
+                                            <button type="button" class="btn btn-success btn-sm">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        @endif
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            @if ($fakturpelunasan->status == 'unpost')
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Penjualan')->wherePivot('can_posting', 1)->exists())
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $fakturpelunasan->id }}">Posting</a>
                                                 @endif
-                                                @if ($item->status == 'posting')
-                                                    @if (auth()->user()->menufiturs()->where('nama', 'Penjualan')->wherePivot('can_unpost', 1)->exists())
-                                                        <a class="dropdown-item unpost-btn"
-                                                            data-memo-id="{{ $item->id }}">Unpost</a>
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/penjualan/' . $item->id) }}">Show</a>
-                                                    @endif
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Penjualan')->wherePivot('can_update', 1)->exists())
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery-pelunasan-penjualan/' . $fakturpelunasan->id . '/edit') }}">Update</a>
                                                 @endif
-                                                @if ($item->status == 'selesai')
-                                                    @if (auth()->user()->menufiturs()->where('nama', 'Penjualan')->wherePivot('can_show', 1)->exists())
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/penjualan/' . $item->id) }}">Show</a>
-                                                    @endif
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Penjualan')->wherePivot('can_show', 1)->exists())
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/pelunasan-penjualan/' . $fakturpelunasan->id) }}">Show</a>
                                                 @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- Modal Loading -->
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Penjualan')->wherePivot('can_delete', 1)->exists())
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapuspelunasanpenjualan', ['id' => $fakturpelunasan->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endif
+                                            @if ($fakturpelunasan->status == 'posting')
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Penjualan')->wherePivot('can_unpost', 1)->exists())
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $fakturpelunasan->id }}">Unpost</a>
+                                                @endif
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Penjualan')->wherePivot('can_show', 1)->exists())
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/pelunasan-penjualan/' . $fakturpelunasan->id) }}">Show</a>
+                                                @endif
+                                            @endif
+                                            @if ($fakturpelunasan->status == 'selesai')
+                                                @if (auth()->user()->menufiturs()->where('nama', 'Pelunasan Penjualan')->wherePivot('can_show', 1)->exists())
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/pelunasan-penjualan/' . $fakturpelunasan->id) }}">Show</a>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </td>
+                            @endforeach
+                        </tbody>
+                    </table>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -157,33 +162,11 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Modal Konfirmasi Hapus -->
-                <div class="modal fade" id="modal-confirm-delete" tabindex="-1" role="dialog"
-                    aria-labelledby="modal-confirm-delete-label" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modal-confirm-delete-label">Konfirmasi Hapus</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Apakah Anda yakin ingin menghapus item yang dipilih?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                <button type="button" class="btn btn-danger" id="btn-confirm-delete">Hapus</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- /.card-body -->
             </div>
         </div>
     </section>
+
 
     {{-- unpost memo  --}}
     <script>
@@ -196,8 +179,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery-penjualan/unpostpenjualan/') }}/" +
-                        memoId,
+                    url: "{{ url('admin/inquery-pelunasan-penjualan/unpost/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -237,8 +219,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery-penjualan/postingpenjualan/') }}/" +
-                        memoId,
+                    url: "{{ url('admin/inquery-pelunasan-penjualan/posting') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId

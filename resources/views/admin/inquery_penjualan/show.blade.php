@@ -272,6 +272,14 @@
                                 </span>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="info-catatan2" style="font-size: 14px;">No. NPWP</td>
+                            <td class="info-item" style="font-size: 14px;">:</td>
+                            <td class="info-text info-left" style="font-size: 14px;">
+                                {{ $penjualan->pelanggan->npwp ?? 'tidak ada' }}
+                                </span>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </td>

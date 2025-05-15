@@ -53,6 +53,11 @@
                             </select>
                         </div>
                         <div class="form-group mb-3">
+                            <label for="nama">No. NPWP</label>
+                            <input type="text" class="form-control" id="npwp" name="npwp"
+                                placeholder="Masukan no npwp" value="{{ old('npwp') }}">
+                        </div>
+                        <div class="form-group mb-3">
                             <div class="form-group">
                                 <label class="form-label" for="golongan">Golongan</label>
                                 <select class="form-control" id="golongan_id" name="golongan_id">

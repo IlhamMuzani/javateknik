@@ -272,6 +272,14 @@
                                 </span>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="info-catatan2" style="font-size: 14px;">No. NPWP</td>
+                            <td class="info-item" style="font-size: 14px;">:</td>
+                            <td class="info-text info-left" style="font-size: 14px;">
+                                {{ $penjualan->pelanggan->npwp ?? 'tidak ada' }}
+                                </span>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </td>
@@ -361,8 +369,7 @@
         <tr>
             <td colspan="6" style="text-align: right; padding-right: 10px; font-weight: bold; font-size: 14px;">PPN
                 11%</td>
-            <td class="td"
-                style="font-size: 14px; text-align: right; font-weight: bold;">
+            <td class="td" style="font-size: 14px; text-align: right; font-weight: bold;">
                 <span style="float: right">
                     {{ number_format($penjualan->ppn, 2, ',', '.') }}
             </td>

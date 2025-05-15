@@ -157,6 +157,7 @@ class PelangganController extends Controller
             'gambar_ktp' => $namaGambar,
             'nama_pelanggan' => $request->nama_pelanggan,
             'nama_alias' => $request->nama_alias,
+            'npwp' => $request->npwp,
             // 'gender' => $request->gender,
             // 'umur' => $request->umur,
             'telp' => $request->telp,

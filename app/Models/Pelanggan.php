@@ -27,6 +27,7 @@ class Pelanggan extends Model
         'Laki-laki',
         'umur',
         'nama_alias',
+        'npwp',
         'email',
         'ig',
         'fb',
@@ -43,7 +44,7 @@ class Pelanggan extends Model
         return LogOptions::defaults()
             ->logFillable('*');
     }
-    
+
     public function golongan()
     {
         return $this->belongsTo(Golongan::class);

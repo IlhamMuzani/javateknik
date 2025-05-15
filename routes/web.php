@@ -101,10 +101,8 @@ Route::middleware('admin')->prefix('admin')->group(
         Route::get('inquery-pelunasan-pembelian/unpost/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpembelianController::class, 'unpost']);
         Route::get('inquery-pelunasan-pembelian/posting/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpembelianController::class, 'posting']);
         Route::get('hapuspelunasanpembelian/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpembelianController::class, 'hapuspelunasanpembelian'])->name('hapuspelunasanpembelian');
-
         Route::get('laporan-pelunasan-pembelian', [\App\Http\Controllers\Admin\LaporanPelunasanpembelianController::class, 'index']);
         Route::get('print-pelunasan-pembelian', [\App\Http\Controllers\Admin\LaporanPelunasanpembelianController::class, 'print_pelunasanpembelian']);
-
         Route::get('laporan-pelunasan-pembelian-global', [\App\Http\Controllers\Admin\LaporanPelunasanpembelianController::class, 'indexglobalpembelian']);
         Route::get('print-pelunasan-pembelian-global', [\App\Http\Controllers\Admin\LaporanPelunasanpembelianController::class, 'print_pelunasanglobalpembelian']);
 
@@ -121,5 +119,16 @@ Route::middleware('admin')->prefix('admin')->group(
         Route::get('inquery-penjualan/postingpenjualan/{id}', [\App\Http\Controllers\Admin\InqueryPenjualanController::class, 'posting']);
         Route::get('laporan-penjualan', [\App\Http\Controllers\Admin\LaporanPenjualanController::class, 'index']);
         Route::get('print-laporanpenjualan', [\App\Http\Controllers\Admin\LaporanPenjualanController::class, 'print_laporanpenjualan']);
+
+        Route::resource('pelunasan-penjualan', \App\Http\Controllers\Admin\PelunasanpenjualanController::class);
+        Route::resource('inquery-pelunasan-penjualan', \App\Http\Controllers\Admin\InqueryFakturpelunasanpenjualanController::class);
+        Route::get('pelunasan-penjualan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PelunasanpenjualanController::class, 'cetakpdf']);
+        Route::get('inquery-pelunasan-penjualan/unpost/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpenjualanController::class, 'unpost']);
+        Route::get('inquery-pelunasan-penjualan/posting/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpenjualanController::class, 'posting']);
+        Route::get('hapuspelunasanpenjualan/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpenjualanController::class, 'hapuspelunasanpenjualan'])->name('hapuspelunasanpenjualan');
+        Route::get('laporan-pelunasan-penjualan', [\App\Http\Controllers\Admin\LaporanPelunasanpenjualanController::class, 'index']);
+        Route::get('print-pelunasan-penjualan', [\App\Http\Controllers\Admin\LaporanPelunasanpenjualanController::class, 'print_pelunasanpenjualan']);
+        Route::get('laporan-pelunasan-penjualan-global', [\App\Http\Controllers\Admin\LaporanPelunasanpenjualanController::class, 'indexglobalpenjualan']);
+        Route::get('print-pelunasan-penjualan-global', [\App\Http\Controllers\Admin\LaporanPelunasanpenjualanController::class, 'print_pelunasanglobalpenjualan']);
     }
 );
