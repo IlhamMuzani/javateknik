@@ -199,7 +199,7 @@
             <td class="info-catatan2" style="font-size: 15px; margin-left: 40px; display: block;">Nama Pelanggan</td>
             <td style="text-align: left; font-size: 15px;">
                 <span class="content2">
-                    {{ $cetakpdf->nama_penjualan }}
+                    {{ $cetakpdf->nama_pelanggan }}
                 </span>
                 <br>
             </td>
