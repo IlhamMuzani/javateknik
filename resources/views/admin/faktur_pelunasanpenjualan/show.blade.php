@@ -237,7 +237,7 @@
 
             <td style="text-align: left; font-size: 15px;">
                 <span class="content2">
-                    {{ $cetakpdf->kode_penjualan }}
+                    {{ $cetakpdf->kode_pelanggan }}
                 </span>
                 <br>
             </td>
