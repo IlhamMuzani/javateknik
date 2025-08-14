@@ -242,6 +242,6 @@ class InqueryPopembelianController extends Controller
         $pembelian->delete();
 
 
-        return redirect('admin/inquery_popembelian')->with('success', 'Berhasil menghapus po pembelian');
+        return redirect('admin/inquery-popembelian')->with('success', 'Berhasil menghapus po pembelian');
     }
 }
